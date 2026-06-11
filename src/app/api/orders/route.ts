@@ -9,6 +9,19 @@ import { siteConfig } from "@/lib/site";
 
 type JsonRecord = Record<string, unknown>;
 
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+const MAX_REQUEST_BODY_BYTES = 20_000;
+const MAX_ORDER_ITEMS = 50;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const RATE_LIMIT_MAX_ENTRIES = 1_000;
+const LOCAL_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"];
+const orderRateLimit = new Map<string, RateLimitEntry>();
+
 type ParsedCustomer = {
   fullName: string;
   email: string;
@@ -30,19 +43,102 @@ function isRecord(value: unknown): value is JsonRecord {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
-function normalizeRequiredString(value: unknown, fieldName: string) {
+function normalizeOrigin(value: string | null | undefined) {
+  if (!value) return null;
+
+  try {
+    return new URL(value).origin;
+  } catch {
+    return null;
+  }
+}
+
+function getAllowedOrigins() {
+  const origins = [
+    siteConfig.url,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.SITE_URL,
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    ...LOCAL_ALLOWED_ORIGINS,
+  ]
+    .map(normalizeOrigin)
+    .filter((origin): origin is string => Boolean(origin));
+
+  return new Set(origins);
+}
+
+function hasTrustedOrigin(request: Request) {
+  const allowedOrigins = getAllowedOrigins();
+  const origin = normalizeOrigin(request.headers.get("origin"));
+
+  if (origin) return allowedOrigins.has(origin);
+
+  const referer = normalizeOrigin(request.headers.get("referer"));
+  if (referer) return allowedOrigins.has(referer);
+
+  return process.env.NODE_ENV !== "production";
+}
+
+function getClientIp(request: Request) {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0]?.trim() || "unknown";
+
+  return request.headers.get("cf-connecting-ip") || request.headers.get("x-real-ip") || "unknown";
+}
+
+function isRequestTooLarge(request: Request) {
+  const contentLength = request.headers.get("content-length");
+  if (!contentLength) return false;
+
+  const parsedLength = Number(contentLength);
+  return Number.isFinite(parsedLength) && parsedLength > MAX_REQUEST_BODY_BYTES;
+}
+
+function isRateLimited(key: string) {
+  const now = Date.now();
+
+  if (orderRateLimit.size > RATE_LIMIT_MAX_ENTRIES) {
+    for (const [entryKey, entry] of orderRateLimit.entries()) {
+      if (entry.resetAt <= now) orderRateLimit.delete(entryKey);
+    }
+  }
+
+  const entry = orderRateLimit.get(key);
+
+  if (!entry || entry.resetAt <= now) {
+    orderRateLimit.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count += 1;
+  return entry.count > RATE_LIMIT_MAX_REQUESTS;
+}
+
+function normalizeRequiredString(value: unknown, fieldName: string, maxLength = 255) {
   if (typeof value !== "string" || value.trim().length === 0) {
     throw new Error(`${fieldName} es obligatorio.`);
   }
 
-  return value.trim();
+  const trimmed = value.trim();
+
+  if (trimmed.length > maxLength) {
+    throw new Error(`${fieldName} no puede superar ${maxLength} caracteres.`);
+  }
+
+  return trimmed;
 }
 
-function normalizeOptionalString(value: unknown) {
+function normalizeOptionalString(value: unknown, fieldName: string, maxLength = 255) {
   if (value === undefined || value === null) return null;
-  if (typeof value !== "string") return null;
+  if (typeof value !== "string") {
+    throw new Error(`${fieldName} debe ser texto.`);
+  }
 
   const trimmed = value.trim();
+  if (trimmed.length > maxLength) {
+    throw new Error(`${fieldName} no puede superar ${maxLength} caracteres.`);
+  }
+
   return trimmed.length > 0 ? trimmed : null;
 }
 
@@ -53,11 +149,11 @@ function parseCustomer(payload: JsonRecord): ParsedCustomer {
     throw new Error("Los datos del cliente son obligatorios.");
   }
 
-  const email = normalizeRequiredString(customer.email, "El email").toLowerCase();
-  const shippingSectorSlug = normalizeRequiredString(customer.shippingSectorSlug, "El sector de entrega");
+  const email = normalizeRequiredString(customer.email, "El email", 254).toLowerCase();
+  const shippingSectorSlug = normalizeRequiredString(customer.shippingSectorSlug, "El sector de entrega", 80);
   const shippingSector = getShippingSectorBySlug(shippingSectorSlug);
 
-  if (!email.includes("@")) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error("El email no tiene un formato válido.");
   }
 
@@ -66,15 +162,15 @@ function parseCustomer(payload: JsonRecord): ParsedCustomer {
   }
 
   return {
-    fullName: normalizeRequiredString(customer.fullName, "El nombre"),
+    fullName: normalizeRequiredString(customer.fullName, "El nombre", 120),
     email,
-    phone: normalizeRequiredString(customer.phone, "El teléfono"),
-    addressLine: normalizeOptionalString(customer.addressLine),
+    phone: normalizeRequiredString(customer.phone, "El teléfono", 40),
+    addressLine: normalizeOptionalString(customer.addressLine, "La dirección", 240),
     shippingSector,
-    city: normalizeOptionalString(customer.city),
-    province: normalizeOptionalString(customer.province),
-    postalCode: normalizeOptionalString(customer.postalCode),
-    notes: normalizeOptionalString(customer.notes),
+    city: normalizeOptionalString(customer.city, "La ciudad", 80),
+    province: normalizeOptionalString(customer.province, "La provincia", 80),
+    postalCode: normalizeOptionalString(customer.postalCode, "El código postal", 20),
+    notes: normalizeOptionalString(customer.notes, "Las notas", 500),
   };
 }
 
@@ -85,6 +181,10 @@ function parseItems(payload: JsonRecord): ParsedOrderItem[] {
     throw new Error("El pedido debe tener al menos un producto.");
   }
 
+  if (rawItems.length > MAX_ORDER_ITEMS) {
+    throw new Error(`El pedido no puede tener más de ${MAX_ORDER_ITEMS} items.`);
+  }
+
   const productsById = new Map(getProducts().map((product) => [product.id, product]));
   const quantitiesByProductId = new Map<string, number>();
 
@@ -93,7 +193,7 @@ function parseItems(payload: JsonRecord): ParsedOrderItem[] {
       throw new Error("Cada item del carrito debe ser un objeto válido.");
     }
 
-    const productId = normalizeRequiredString(rawItem.productId, "El producto");
+    const productId = normalizeRequiredString(rawItem.productId, "El producto", 100);
     const quantity = rawItem.quantity;
 
     if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
@@ -106,7 +206,13 @@ function parseItems(payload: JsonRecord): ParsedOrderItem[] {
       throw new Error(`El producto ${productId} ya no está disponible en el catálogo.`);
     }
 
-    quantitiesByProductId.set(productId, (quantitiesByProductId.get(productId) || 0) + quantity);
+    const nextQuantity = (quantitiesByProductId.get(productId) || 0) + quantity;
+
+    if (nextQuantity > 99) {
+      throw new Error(`La cantidad total de ${productId} debe ser un entero entre 1 y 99.`);
+    }
+
+    quantitiesByProductId.set(productId, nextQuantity);
   }
 
   return Array.from(quantitiesByProductId.entries()).map(([productId, quantity]) => {
@@ -124,8 +230,24 @@ function createOrderNumber() {
   return `DR-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 }
 
+function createConfirmationToken() {
+  return `${crypto.randomUUID()}${crypto.randomUUID()}`.replace(/-/g, "");
+}
+
 export async function POST(request: Request) {
   try {
+    if (!hasTrustedOrigin(request)) {
+      return NextResponse.json({ error: "Origen no permitido." }, { status: 403 });
+    }
+
+    if (isRequestTooLarge(request)) {
+      return NextResponse.json({ error: "El cuerpo del pedido es demasiado grande." }, { status: 413 });
+    }
+
+    if (isRateLimited(getClientIp(request))) {
+      return NextResponse.json({ error: "Demasiados intentos. Intenta nuevamente en un minuto." }, { status: 429 });
+    }
+
     const payload = (await request.json()) as unknown;
 
     if (!isRecord(payload)) {
@@ -138,29 +260,48 @@ export async function POST(request: Request) {
     const shippingAmount = customer.shippingSector.price;
     const totalAmount = subtotalAmount + shippingAmount;
     const orderNumber = createOrderNumber();
+    const confirmationToken = createConfirmationToken();
     const supabase = createSupabaseAdminClient();
 
-    const { data: customerRow, error: customerError } = await supabase
+    const { data: insertedCustomerRow, error: customerInsertError } = await supabase
       .from("customers")
-      .upsert(
-        {
-          email: customer.email,
-          full_name: customer.fullName,
-          phone: customer.phone,
-        },
-        { onConflict: "email" },
-      )
+      .insert({
+        email: customer.email,
+        full_name: customer.fullName,
+        phone: customer.phone,
+      })
       .select("id")
       .single();
 
-    if (customerError || !customerRow) {
-      return NextResponse.json({ error: customerError?.message || "No se pudo guardar el cliente." }, { status: 500 });
+    let customerRow = insertedCustomerRow;
+
+    if (customerInsertError) {
+      if (customerInsertError.code !== "23505") {
+        return NextResponse.json({ error: "No se pudo guardar el cliente." }, { status: 500 });
+      }
+
+      const { data: existingCustomerRow, error: customerSelectError } = await supabase
+        .from("customers")
+        .select("id")
+        .eq("email", customer.email)
+        .single();
+
+      if (customerSelectError || !existingCustomerRow) {
+        return NextResponse.json({ error: "No se pudo guardar el cliente." }, { status: 500 });
+      }
+
+      customerRow = existingCustomerRow;
+    }
+
+    if (!customerRow) {
+      return NextResponse.json({ error: "No se pudo guardar el cliente." }, { status: 500 });
     }
 
     const { data: orderRow, error: orderError } = await supabase
       .from("orders")
       .insert({
         order_number: orderNumber,
+        confirmation_token: confirmationToken,
         customer_id: customerRow.id,
         customer_email: customer.email,
         customer_name: customer.fullName,
@@ -183,11 +324,11 @@ export async function POST(request: Request) {
         },
         notes: customer.notes,
       })
-      .select("id, order_number")
+      .select("id, order_number, confirmation_token")
       .single();
 
     if (orderError || !orderRow) {
-      return NextResponse.json({ error: orderError?.message || "No se pudo guardar el pedido." }, { status: 500 });
+      return NextResponse.json({ error: "No se pudo guardar el pedido." }, { status: 500 });
     }
 
     const orderItems = items.map(({ product, quantity }) => ({
@@ -217,12 +358,13 @@ export async function POST(request: Request) {
 
     if (orderItemsError) {
       await supabase.from("orders").delete().eq("id", orderRow.id);
-      return NextResponse.json({ error: orderItemsError.message }, { status: 500 });
+      return NextResponse.json({ error: "No se pudieron guardar los productos del pedido." }, { status: 500 });
     }
 
     return NextResponse.json({
       orderId: orderRow.id,
       orderNumber: orderRow.order_number,
+      confirmationToken: orderRow.confirmation_token,
       subtotalAmount,
       shippingAmount,
       totalAmount,

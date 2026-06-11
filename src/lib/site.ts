@@ -6,7 +6,7 @@ export const siteConfig = {
   shortName: "Dely Roses",
   description:
     "Ecommerce de rosas frescas y arreglos florales delicados para regalos, aniversarios y momentos especiales.",
-  url: configuredSiteUrl || "https://delyroses.com",
+  url: configuredSiteUrl || "https://delyroses-ec.com",
   locale: "es",
   currency: process.env.NEXT_PUBLIC_CURRENCY || "USD",
   category: "Floristería online",

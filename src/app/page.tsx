@@ -57,33 +57,10 @@ export default function HomePage() {
               <div>
                 <Flower2 className="mx-auto size-16 text-accent" aria-hidden="true" />
                 <p className="mt-6 text-sm font-bold uppercase tracking-[0.28em] text-accent">Dely Roses</p>
-                <h2 className="mt-3 text-4xl font-bold tracking-[-0.05em] text-foreground">Catálogo JSON estricto</h2>
-                <p className="mx-auto mt-4 max-w-sm text-muted-foreground">
-                  Productos, imágenes, categorías y etiquetas se validan al arranque para evitar páginas rotas o SEO inconsistente.
-                </p>
+                
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { icon: Sparkles, title: "SEO técnico", text: "Metadata, canonical, Open Graph, robots, sitemap y JSON-LD listos." },
-            { icon: Truck, title: "Catálogo escalable", text: "Agrega categorías, etiquetas y productos desde JSON sin tocar componentes." },
-            { icon: Gift, title: "Ecommerce floral", text: "Arquitectura preparada para rosas, ramos, regalos y ocasiones especiales." },
-          ].map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <article key={item.title} className="rounded-[1.75rem] border border-border bg-card p-6 shadow-sm">
-                <Icon className="size-7 text-accent" aria-hidden="true" />
-                <h3 className="mt-5 text-2xl font-bold tracking-[-0.03em] text-foreground">{item.title}</h3>
-                <p className="mt-3 leading-7 text-muted-foreground">{item.text}</p>
-              </article>
-            );
-          })}
         </div>
       </section>
 

@@ -39,7 +39,7 @@ fklyicynndyxuhbnctsg
 La URL correcta para `@supabase/supabase-js` debe ser la URL base del proyecto, sin `/rest/v1/`:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://delyroses-ec.com
 NEXT_PUBLIC_CURRENCY=USD
 SUPABASE_URL=https://fklyicynndyxuhbnctsg.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=PEGAR_SERVICE_ROLE_KEY_AQUI
@@ -80,7 +80,7 @@ pnpm build
 pnpm start
 ```
 
-La app queda escuchando en `http://localhost:3000`.
+La app queda escuchando en `http://localhost:3000`. En producción, el proxy o hosting debe apuntar el dominio `https://delyroses-ec.com` a ese proceso.
 
 ## Levantar en un VPS Linux desde cero
 
@@ -119,7 +119,7 @@ nano .env
 Dentro de `.env`, deja como mínimo:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://delyroses-ec.com
 NEXT_PUBLIC_CURRENCY=USD
 SUPABASE_URL=https://fklyicynndyxuhbnctsg.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=PEGAR_SERVICE_ROLE_KEY_AQUI
@@ -277,7 +277,7 @@ Estas cuentas no se guardan en Supabase porque son datos públicos de configurac
 ## Validar que el checkout usa Supabase remoto
 
 1. Levanta la app con `pnpm start`.
-2. Abre `http://localhost:3000/producto/ramo-rosas-rojas`.
+2. Abre `http://localhost:3000/producto/ramo-rosas-rojas-clasico`.
 3. Agrega el producto al carrito.
 4. Entra a `/checkout`.
 5. Completa nombre, email, teléfono y sector de entrega.

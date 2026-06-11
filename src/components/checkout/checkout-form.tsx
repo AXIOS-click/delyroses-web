@@ -25,6 +25,7 @@ type CheckoutFormState = {
 
 type CreateOrderResponse = {
   orderNumber?: string;
+  confirmationToken?: string;
   error?: string;
 };
 
@@ -83,12 +84,12 @@ export function CheckoutForm() {
       });
       const data = (await response.json()) as CreateOrderResponse;
 
-      if (!response.ok || !data.orderNumber) {
+      if (!response.ok || !data.orderNumber || !data.confirmationToken) {
         throw new Error(data.error || "No se pudo crear el pedido.");
       }
 
       clearCart();
-      router.push(`/confirmacion/${encodeURIComponent(data.orderNumber)}`);
+      router.push(`/confirmacion/${encodeURIComponent(data.confirmationToken)}`);
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "No se pudo crear el pedido.");
     } finally {

@@ -62,14 +62,18 @@ function getShippingSectorName(deliveryAddress: Record<string, unknown> | null) 
   return typeof name === "string" && name.trim().length > 0 ? name : null;
 }
 
-async function getOrderWithItems(orderNumber: string) {
+function isConfirmationToken(value: string) {
+  return /^[a-f0-9]{64}$/i.test(value);
+}
+
+async function getOrderWithItems(confirmationToken: string) {
   const supabase = createSupabaseAdminClient();
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .select(
       "id, order_number, customer_email, customer_name, customer_phone, subtotal_amount, shipping_amount, total_amount, delivery_address, notes, created_at",
     )
-    .eq("order_number", orderNumber)
+    .eq("confirmation_token", confirmationToken)
     .single();
 
   if (orderError || !order) return null;
@@ -92,6 +96,9 @@ async function getOrderWithItems(orderNumber: string) {
 
 export default async function ConfirmationPage({ params }: ConfirmationPageProps) {
   const { orderId } = await params;
+
+  if (!isConfirmationToken(orderId)) notFound();
+
   const result = await getOrderWithItems(orderId);
 
   if (!result) notFound();

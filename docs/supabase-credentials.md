@@ -45,7 +45,7 @@ SUPABASE_SERVICE_ROLE_KEY=TU_SERVICE_ROLE_KEY
 Tu `.env.local` mínimo debería quedar así:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://delyroses-ec.com
 NEXT_PUBLIC_CURRENCY=USD
 SUPABASE_URL=https://TU_PROYECTO.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=TU_SERVICE_ROLE_KEY
