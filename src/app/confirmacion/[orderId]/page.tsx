@@ -19,13 +19,18 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
   return (
     <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
       <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Pedido</p>
-      <h1 className="mt-3 text-foreground">Confirmación #{orderId}</h1>
+      <h1 className="mt-3 text-foreground">Pedido confirmado</h1>
       <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-        Ruta privada preparada para confirmaciones. Está marcada como no indexable para evitar contenido duplicado o URLs sensibles en Google.
+        Guardamos tu pedido en Dely Roses con el número <strong className="text-foreground">#{orderId}</strong>. Esta página no se indexa en buscadores.
       </p>
-      <Link href="/" className="mt-8 inline-flex rounded-full bg-primary px-7 py-4 font-bold text-primary-foreground">
-        Volver al inicio
-      </Link>
+      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <Link href="/" className="inline-flex rounded-full bg-primary px-7 py-4 font-bold text-primary-foreground">
+          Volver al inicio
+        </Link>
+        <Link href="/productos" className="inline-flex rounded-full border border-border bg-card px-7 py-4 font-bold text-accent">
+          Seguir comprando
+        </Link>
+      </div>
     </section>
   );
 }

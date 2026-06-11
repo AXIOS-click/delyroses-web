@@ -2,24 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageCircle, ShoppingBag } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 
+import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getProductBySlug, getProducts } from "@/data/catalog";
 import { buildBreadcrumbJsonLd, buildJuiceMetadata, buildProductJsonLd } from "@/lib/juice-seo";
+import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
-
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("es", {
-    style: "currency",
-    currency: siteConfig.currency,
-    maximumFractionDigits: 2,
-  }).format(price);
-}
 
 export function generateStaticParams() {
   return getProducts().map((product) => ({ slug: product.slug }));
@@ -101,7 +95,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="lg:pt-8">
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">{product.category.name}</p>
             <h1 className="mt-3 text-foreground">{product.name}</h1>
-            <p className="mt-5 text-4xl font-bold text-accent">{formatPrice(product.price)}</p>
+            <p className="mt-5 text-4xl font-bold text-accent">{formatMoney(product.price)}</p>
             <p className="mt-6 text-lg leading-8 text-muted-foreground">{product.description}</p>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -112,7 +106,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
               ))}
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <AddToCartPanel
+              product={{
+                productId: product.id,
+                slug: product.slug,
+                name: product.name,
+                price: product.price,
+                imageUrl: product.primaryImageUrl,
+                categorySlug: product.category.slug,
+                categoryName: product.category.name,
+              }}
+            />
+
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               {siteConfig.whatsappUrl ? (
                 <a
                   href={`${siteConfig.whatsappUrl}?text=${encodeURIComponent(`Hola, quiero consultar por ${product.name}`)}`}
@@ -124,13 +130,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   Consultar por WhatsApp
                 </a>
               ) : null}
-              <Link
-                href="/carrito"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-4 font-bold text-foreground transition hover:border-primary"
-              >
-                <ShoppingBag className="size-5" aria-hidden="true" />
-                Agregar al carrito
-              </Link>
             </div>
           </div>
         </div>

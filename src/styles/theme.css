@@ -18,6 +18,7 @@
   --accent-foreground: #ffffff;
   --destructive: #c85d6a;
   --destructive-foreground: #ffffff;
+  --danger-soft: #fce7ea;
   --border: rgba(74, 37, 48, 0.12);
   --input: #ffffff;
   --input-background: #ffffff;
@@ -60,6 +61,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-danger-soft: var(--danger-soft);
   --color-surface-rose: var(--surface-rose);
   --color-surface-warm: var(--surface-warm);
   --color-surface-dark: var(--surface-dark);

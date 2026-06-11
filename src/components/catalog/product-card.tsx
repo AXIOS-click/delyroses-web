@@ -2,15 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { CatalogProduct } from "@/data/catalog/types";
-import { siteConfig } from "@/lib/site";
-
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("es", {
-    style: "currency",
-    currency: siteConfig.currency,
-    maximumFractionDigits: 2,
-  }).format(price);
-}
+import { formatMoney } from "@/lib/money";
 
 export function ProductCard({ product }: { product: CatalogProduct }) {
   return (
@@ -38,7 +30,7 @@ export function ProductCard({ product }: { product: CatalogProduct }) {
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">{product.category.name}</p>
         <h3 className="mt-2 text-xl font-bold tracking-[-0.02em] text-foreground">{product.name}</h3>
         <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">{product.description}</p>
-        <p className="mt-4 text-2xl font-bold text-accent">{formatPrice(product.price)}</p>
+        <p className="mt-4 text-2xl font-bold text-accent">{formatMoney(product.price)}</p>
       </div>
     </Link>
   );

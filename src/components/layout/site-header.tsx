@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
 
+import { CartLink } from "@/components/cart/cart-link";
 import { navItems, siteConfig } from "@/lib/site";
 
 export function SiteHeader() {
@@ -20,13 +20,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link
-          href="/carrito"
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-bold text-foreground shadow-sm transition hover:border-primary"
-        >
-          <ShoppingBag className="size-4" aria-hidden="true" />
-          Carrito
-        </Link>
+        <CartLink />
       </div>
     </header>
   );

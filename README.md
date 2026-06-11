@@ -1,11 +1,17 @@
 
-  # Low-fidelity ecommerce wireframe
+# Dely Roses
 
-  This is a code bundle for Low-fidelity ecommerce wireframe. The original project is available at https://www.figma.com/design/1MTyCvrHVIB8g40tUqE0HS/Low-fidelity-ecommerce-wireframe.
+Ecommerce de rosas y arreglos florales migrado a Next.js, con SEO técnico, catálogo JSON estricto, carrito local con Zustand y checkout conectado a Supabase.
 
-  ## Running the code
+## Desarrollo
 
-  Run `npm i` to install the dependencies.
+```bash
+pnpm install
+pnpm dev:local
+```
 
-  Run `npm run dev` to start the development server.
-  
+## Checkout y Supabase
+
+Ver `docs/checkout-supabase-zustand.md`.
+
+Para obtener la URL y el secret de Supabase, ver `docs/supabase-credentials.md`.
