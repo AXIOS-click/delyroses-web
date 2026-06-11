@@ -1,0 +1,17 @@
+[
+    {
+        "id": "ramo-001",
+        "slug": "ramo-rosas-rojas",
+        "name": "Ramo de rosas rojas",
+        "description": "Ramo delicado con rosas frescas para regalar.",
+        "price": 45,
+        "imageUrls": [
+            "https://img.magnific.com/foto-gratis/flor-rosa-roja-jardin_1373-27.jpg"
+        ],
+        "categorySlug": "rosas",
+        "tagSlugs": [
+            "amor",
+            "rosas-rojas"
+        ]
+    }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "rosas",
+    "name": "Rosas",
+    "description": "Rosas frescas seleccionadas para regalos románticos, detalles elegantes y fechas especiales.",
+    "seoTitle": "Rosas frescas para regalar",
+    "seoDescription": "Compra rosas frescas y delicadas en Dely Roses, listas para regalar en momentos especiales."
+  },
+  {
+    "slug": "arreglos-florales",
+    "name": "Arreglos florales",
+    "description": "Composiciones florales con rosas, follajes y detalles pastel para sorprender con estilo.",
+    "seoTitle": "Arreglos florales con rosas",
+    "seoDescription": "Encuentra arreglos florales elegantes con rosas y acabados delicados para regalos memorables."
+  },
+  {
+    "slug": "ramos",
+    "name": "Ramos",
+    "description": "Ramos de flores pensados para cumpleaños, aniversarios, agradecimientos y celebraciones.",
+    "seoTitle": "Ramos de rosas y flores",
+    "seoDescription": "Explora ramos de rosas y flores con una estética delicada, romántica y lista para regalar."
+  },
+  {
+    "slug": "ocasiones-especiales",
+    "name": "Ocasiones especiales",
+    "description": "Selecciones florales para aniversario, cumpleaños, amor, disculpas y celebraciones importantes.",
+    "seoTitle": "Flores para ocasiones especiales",
+    "seoDescription": "Regala flores para aniversarios, cumpleaños y ocasiones especiales con Dely Roses."
+  }
+]

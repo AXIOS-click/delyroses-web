@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dely Roses">
+  <rect width="64" height="64" rx="18" fill="#FFF9F7"/>
+  <path d="M32 49c9-8 15-15 15-24 0-5-4-9-9-9-3 0-5 1-6 4-1-3-3-4-6-4-5 0-9 4-9 9 0 9 6 16 15 24Z" fill="#E8A7B9"/>
+  <path d="M32 49c6-7 9-13 9-21 0-3-2-5-5-5-2 0-3 1-4 3-1-2-2-3-4-3-3 0-5 2-5 5 0 8 3 14 9 21Z" fill="#B86B84" opacity=".8"/>
+</svg>

@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "amor",
+    "name": "Amor",
+    "description": "Detalles románticos para expresar cariño."
+  },
+  {
+    "slug": "aniversario",
+    "name": "Aniversario",
+    "description": "Arreglos para celebrar historias importantes."
+  },
+  {
+    "slug": "cumpleanos",
+    "name": "Cumpleaños",
+    "description": "Flores para cumpleaños y sorpresas alegres."
+  },
+  {
+    "slug": "rosas-rojas",
+    "name": "Rosas rojas",
+    "description": "Rosas clásicas para regalos románticos."
+  },
+  {
+    "slug": "rosas-pastel",
+    "name": "Rosas pastel",
+    "description": "Tonos suaves para regalos delicados."
+  },
+  {
+    "slug": "entrega-a-domicilio",
+    "name": "Entrega a domicilio",
+    "description": "Productos pensados para envío local."
+  }
+]
