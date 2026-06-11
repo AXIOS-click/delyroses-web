@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Quicksand } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteFooter />
         </div>
         <JsonLd data={[buildStoreJsonLd(), buildWebsiteJsonLd()]} />
+        <SpeedInsights />
       </body>
     </html>
   );
