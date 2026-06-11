@@ -22,6 +22,10 @@ API de pedidos: `src/app/api/orders/route.ts`
 
 Migración SQL: `supabase/migrations/20260611000000_create_orders.sql`
 
+Sectores de envío: `src/data/shipping/sectors.json`
+
+Cuentas bancarias: `src/data/payment/bank-accounts.json`
+
 ## Variables de entorno
 
 Este proyecto usa Supabase remoto en servidor, no Supabase local.
@@ -181,15 +185,105 @@ Tablas creadas:
 
 `order_items`: productos comprados con snapshot del producto en ese momento.
 
+## Formato de sectores de envío
+
+Los sectores se configuran en:
+
+```text
+src/data/shipping/sectors.json
+```
+
+Formato exacto:
+
+```json
+[
+  {
+    "slug": "sector-centro",
+    "name": "Sector Centro",
+    "description": "Entrega dentro del sector centro de cobertura.",
+    "price": 2.5,
+    "enabled": true
+  }
+]
+```
+
+Campos:
+
+`slug`: identificador único en formato slug. Ejemplo: `sector-norte`.
+
+`name`: nombre visible en el checkout.
+
+`description`: texto de ayuda visible debajo del selector.
+
+`price`: valor extra de envío que se suma al pedido.
+
+`enabled`: si es `true`, aparece en el checkout; si es `false`, queda oculto y el servidor lo rechaza.
+
+El checkout muestra solo sectores habilitados. `POST /api/orders` vuelve a validar el `slug` en el servidor y usa `price` como `shipping_amount` guardado en Supabase.
+
+El sector elegido queda guardado dentro de `orders.delivery_address.shippingSector` junto con su `slug`, `name`, `description` y `price`.
+
+## Formato de cuentas bancarias
+
+Las cuentas se configuran en:
+
+```text
+src/data/payment/bank-accounts.json
+```
+
+Formato exacto:
+
+```json
+[
+  {
+    "slug": "banco-pichincha",
+    "bankName": "Banco Pichincha",
+    "displayName": "Cuenta Banco Pichincha",
+    "accountHolder": "Dely Roses",
+    "accountType": "Cuenta de ahorros",
+    "accountNumber": "0000000000",
+    "documentId": "0000000000000",
+    "logoUrl": "/favicon.svg",
+    "instructions": "Enviar el comprobante por WhatsApp con el número de pedido.",
+    "enabled": true
+  }
+]
+```
+
+Campos:
+
+`slug`: identificador único en formato slug. Ejemplo: `banco-pichincha`.
+
+`bankName`: nombre del banco.
+
+`displayName`: nombre visible de la cuenta.
+
+`accountHolder`: titular de la cuenta.
+
+`accountType`: tipo de cuenta.
+
+`accountNumber`: número de cuenta.
+
+`documentId`: cédula, RUC o identificación del titular.
+
+`logoUrl`: ruta local en `public` o URL HTTPS del logo. Ejemplo local: `/bancos/pichincha.svg`.
+
+`instructions`: texto opcional para esa cuenta.
+
+`enabled`: si es `true`, aparece en checkout y confirmación; si es `false`, queda oculta.
+
+Estas cuentas no se guardan en Supabase porque son datos públicos de configuración. Se muestran en `/checkout` y `/confirmacion/[orderNumber]`.
+
 ## Validar que el checkout usa Supabase remoto
 
 1. Levanta la app con `pnpm start`.
 2. Abre `http://localhost:3000/producto/ramo-rosas-rojas`.
 3. Agrega el producto al carrito.
 4. Entra a `/checkout`.
-5. Completa nombre, email y teléfono.
+5. Completa nombre, email, teléfono y sector de entrega.
 6. Confirma el pedido.
-7. En Supabase Dashboard, revisa estas tablas:
+7. La página de confirmación muestra los productos comprados desde Supabase y recuerda enviar la captura del comprobante por WhatsApp.
+8. En Supabase Dashboard, revisa estas tablas:
 
 ```text
 Table Editor > customers
@@ -203,11 +297,10 @@ Table Editor > order_items
 2. `AddToCartPanel` guarda el producto en Zustand y navega a `/carrito`.
 3. El carrito permite sumar, restar o quitar productos.
 4. `/checkout` toma el carrito local y pide datos del cliente.
-5. `POST /api/orders` recalcula el pedido desde JSON y guarda en Supabase.
+5. `POST /api/orders` recalcula productos y envío desde JSON y guarda en Supabase.
 6. Si todo sale bien, limpia el carrito y navega a `/confirmacion/[orderNumber]`.
+7. `/confirmacion/[orderNumber]` consulta `orders` y `order_items` en Supabase para mostrar la lista comprada, totales, cuentas bancarias y botón de WhatsApp para enviar comprobante.
 
 ## Pendiente para la siguiente etapa
-
-Agregar el JSON de sectores de envío y sumar ese costo al total antes de crear el pedido.
 
 Crear la página de pedidos anteriores por email del cliente.

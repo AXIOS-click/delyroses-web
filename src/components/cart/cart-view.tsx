@@ -14,8 +14,6 @@ export function CartView() {
   const removeItem = useCartStore((state) => state.removeItem);
   const subtotal = getCartSubtotal(items);
   const itemsCount = getCartItemsCount(items);
-  const shippingAmount = 0;
-  const total = subtotal + shippingAmount;
 
   if (!hasHydrated) {
     return (
@@ -109,14 +107,14 @@ export function CartView() {
             </div>
             <div className="flex justify-between gap-4">
               <span>Envío</span>
-              <span className="font-bold text-foreground">{formatMoney(shippingAmount)}</span>
+              <span className="font-bold text-foreground">Se calcula en checkout</span>
             </div>
           </div>
           <div className="mt-6 flex justify-between gap-4 text-2xl font-bold text-foreground">
-            <span>Total</span>
-            <span>{formatMoney(total)}</span>
+            <span>Subtotal</span>
+            <span>{formatMoney(subtotal)}</span>
           </div>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">Los envíos por sectores se sumarán aquí cuando configuremos ese JSON.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">El costo de envío se suma al elegir el sector de entrega en el checkout.</p>
           <Link
             href="/checkout"
             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 font-bold text-primary-foreground transition hover:bg-[#d98fa5]"

@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "sector-centro",
+    "name": "Sector Centro",
+    "description": "Entrega dentro del sector centro de cobertura.",
+    "price": 2.5,
+    "enabled": true
+  },
+  {
+    "slug": "sector-norte",
+    "name": "Sector Norte",
+    "description": "Entrega dentro del sector norte de cobertura.",
+    "price": 3.5,
+    "enabled": true
+  },
+  {
+    "slug": "sector-sur",
+    "name": "Sector Sur",
+    "description": "Entrega dentro del sector sur de cobertura.",
+    "price": 3.5,
+    "enabled": true
+  },
+  {
+    "slug": "valles",
+    "name": "Valles",
+    "description": "Entrega en sectores externos o valles dentro de cobertura.",
+    "price": 5,
+    "enabled": true
+  }
+]

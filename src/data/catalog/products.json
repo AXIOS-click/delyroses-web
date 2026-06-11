@@ -1,17 +1,99 @@
 [
-    {
-        "id": "ramo-001",
-        "slug": "ramo-rosas-rojas",
-        "name": "Ramo de rosas rojas",
-        "description": "Ramo delicado con rosas frescas para regalar.",
-        "price": 45,
-        "imageUrls": [
-            "https://img.magnific.com/foto-gratis/flor-rosa-roja-jardin_1373-27.jpg"
-        ],
-        "categorySlug": "rosas",
-        "tagSlugs": [
-            "amor",
-            "rosas-rojas"
-        ]
-    }
+  {
+    "id": "rosas-001",
+    "slug": "ramo-rosas-rojas-clasico",
+    "name": "Ramo clásico de rosas rojas",
+    "description": "Ramo de rosas rojas frescas con envoltura delicada, ideal para regalos románticos y detalles de amor.",
+    "price": 45,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1518709779341-56cf4535e94b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "rosas",
+    "tagSlugs": ["amor", "rosas-rojas", "entrega-a-domicilio"]
+  },
+  {
+    "id": "rosas-002",
+    "slug": "docena-rosas-rojas-premium",
+    "name": "Docena de rosas rojas premium",
+    "description": "Doce rosas rojas seleccionadas con follaje fresco y presentación elegante para aniversarios o sorpresas especiales.",
+    "price": 58,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "rosas",
+    "tagSlugs": ["amor", "aniversario", "rosas-rojas"]
+  },
+  {
+    "id": "ramo-001",
+    "slug": "ramo-rosas-pastel",
+    "name": "Ramo de rosas pastel",
+    "description": "Ramo suave con rosas en tonos pastel, pensado para cumpleaños, agradecimientos y regalos delicados.",
+    "price": 42,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "ramos",
+    "tagSlugs": ["cumpleanos", "rosas-pastel", "entrega-a-domicilio"]
+  },
+  {
+    "id": "ramo-002",
+    "slug": "ramo-romantico-mixto",
+    "name": "Ramo romántico mixto",
+    "description": "Composición floral con rosas, flores de temporada y follaje, perfecta para expresar cariño con un detalle diferente.",
+    "price": 49,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1487530811176-3780de880c2d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "ramos",
+    "tagSlugs": ["amor", "aniversario", "entrega-a-domicilio"]
+  },
+  {
+    "id": "arreglo-001",
+    "slug": "arreglo-floral-caja-rosas",
+    "name": "Arreglo floral en caja con rosas",
+    "description": "Caja floral con rosas y detalles delicados, lista para regalar en aniversarios, cumpleaños o celebraciones especiales.",
+    "price": 65,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1561181286-d5c734c099e8?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "arreglos-florales",
+    "tagSlugs": ["aniversario", "rosas-pastel", "entrega-a-domicilio"]
+  },
+  {
+    "id": "arreglo-002",
+    "slug": "arreglo-floral-elegante",
+    "name": "Arreglo floral elegante",
+    "description": "Arreglo de rosas y flores complementarias con una presentación sobria, cálida y romántica.",
+    "price": 72,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "arreglos-florales",
+    "tagSlugs": ["amor", "aniversario", "entrega-a-domicilio"]
+  },
+  {
+    "id": "ocasion-001",
+    "slug": "flores-para-cumpleanos",
+    "name": "Flores para cumpleaños",
+    "description": "Selección alegre de flores y rosas en tonos suaves para acompañar una sorpresa de cumpleaños.",
+    "price": 39,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "ocasiones-especiales",
+    "tagSlugs": ["cumpleanos", "rosas-pastel", "entrega-a-domicilio"]
+  },
+  {
+    "id": "ocasion-002",
+    "slug": "detalle-aniversario-rosas",
+    "name": "Detalle de aniversario con rosas",
+    "description": "Detalle floral pensado para aniversarios, con rosas frescas y acabado romántico listo para entregar.",
+    "price": 55,
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "categorySlug": "ocasiones-especiales",
+    "tagSlugs": ["amor", "aniversario", "rosas-rojas"]
+  }
 ]

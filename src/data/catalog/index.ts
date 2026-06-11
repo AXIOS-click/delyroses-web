@@ -202,3 +202,20 @@ export function getProductBySlug(slug: string) {
 export function getProductsByCategory(categorySlug: string) {
   return products.filter((product) => product.categorySlug === categorySlug);
 }
+
+export function getRelatedProducts(product: CatalogProduct, limit = 4) {
+  return products
+    .filter((candidate) => candidate.id !== product.id)
+    .map((candidate) => {
+      const sharedTags = candidate.tagSlugs.filter((tagSlug) => product.tagSlugs.includes(tagSlug)).length;
+      const sameCategory = candidate.categorySlug === product.categorySlug ? 3 : 0;
+
+      return {
+        product: candidate,
+        score: sameCategory + sharedTags,
+      };
+    })
+    .sort((first, second) => second.score - first.score || first.product.name.localeCompare(second.product.name))
+    .slice(0, limit)
+    .map((item) => item.product);
+}

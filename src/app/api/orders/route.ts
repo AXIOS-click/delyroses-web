@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getProducts } from "@/data/catalog";
 import type { CatalogProduct } from "@/data/catalog/types";
+import { getShippingSectorBySlug } from "@/data/shipping";
+import type { ShippingSector } from "@/data/shipping/types";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { siteConfig } from "@/lib/site";
 
@@ -12,6 +14,7 @@ type ParsedCustomer = {
   email: string;
   phone: string;
   addressLine: string | null;
+  shippingSector: ShippingSector;
   city: string | null;
   province: string | null;
   postalCode: string | null;
@@ -51,9 +54,15 @@ function parseCustomer(payload: JsonRecord): ParsedCustomer {
   }
 
   const email = normalizeRequiredString(customer.email, "El email").toLowerCase();
+  const shippingSectorSlug = normalizeRequiredString(customer.shippingSectorSlug, "El sector de entrega");
+  const shippingSector = getShippingSectorBySlug(shippingSectorSlug);
 
   if (!email.includes("@")) {
     throw new Error("El email no tiene un formato válido.");
+  }
+
+  if (!shippingSector || !shippingSector.enabled) {
+    throw new Error("El sector de entrega seleccionado no está disponible.");
   }
 
   return {
@@ -61,6 +70,7 @@ function parseCustomer(payload: JsonRecord): ParsedCustomer {
     email,
     phone: normalizeRequiredString(customer.phone, "El teléfono"),
     addressLine: normalizeOptionalString(customer.addressLine),
+    shippingSector,
     city: normalizeOptionalString(customer.city),
     province: normalizeOptionalString(customer.province),
     postalCode: normalizeOptionalString(customer.postalCode),
@@ -125,7 +135,7 @@ export async function POST(request: Request) {
     const customer = parseCustomer(payload);
     const items = parseItems(payload);
     const subtotalAmount = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
-    const shippingAmount = 0;
+    const shippingAmount = customer.shippingSector.price;
     const totalAmount = subtotalAmount + shippingAmount;
     const orderNumber = createOrderNumber();
     const supabase = createSupabaseAdminClient();
@@ -161,6 +171,12 @@ export async function POST(request: Request) {
         currency: siteConfig.currency,
         delivery_address: {
           addressLine: customer.addressLine,
+          shippingSector: {
+            slug: customer.shippingSector.slug,
+            name: customer.shippingSector.name,
+            description: customer.shippingSector.description,
+            price: customer.shippingSector.price,
+          },
           city: customer.city,
           province: customer.province,
           postalCode: customer.postalCode,

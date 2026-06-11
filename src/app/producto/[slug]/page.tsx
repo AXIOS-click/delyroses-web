@@ -5,9 +5,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 
 import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
+import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getProductBySlug, getProducts } from "@/data/catalog";
-import { buildBreadcrumbJsonLd, buildJuiceMetadata, buildProductJsonLd } from "@/lib/juice-seo";
+import { getProductBySlug, getProducts, getRelatedProducts } from "@/data/catalog";
+import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata, buildProductJsonLd } from "@/lib/juice-seo";
 import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
 
@@ -49,6 +50,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
+  const relatedProducts = getRelatedProducts(product, 4);
+
   return (
     <>
       <JsonLd
@@ -60,6 +63,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             { name: product.name, path: product.urlPath },
           ]),
           buildProductJsonLd(product),
+          buildItemListJsonLd(`Productos relacionados con ${product.name}`, product.urlPath, relatedProducts),
         ]}
       />
 
@@ -134,6 +138,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </section>
+
+      {relatedProducts.length > 0 ? (
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">También te puede gustar</p>
+              <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Productos relacionados</h2>
+            </div>
+            <Link href={`/categoria/${product.category.slug}`} className="font-bold text-accent hover:underline">
+              Ver más en {product.category.name}
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedProducts.map((relatedProduct) => (
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }

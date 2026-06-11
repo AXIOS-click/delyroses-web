@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "banco-pichincha",
+    "bankName": "Banco Pichincha",
+    "displayName": "Cuenta Banco Pichincha",
+    "accountHolder": "Dely Roses",
+    "accountType": "Cuenta de ahorros",
+    "accountNumber": "0000000000",
+    "documentId": "0000000000000",
+    "logoUrl": "/favicon.svg",
+    "instructions": "Enviar el comprobante por WhatsApp con el número de pedido.",
+    "enabled": true
+  },
+  {
+    "slug": "banco-guayaquil",
+    "bankName": "Banco Guayaquil",
+    "displayName": "Cuenta Banco Guayaquil",
+    "accountHolder": "Dely Roses",
+    "accountType": "Cuenta corriente",
+    "accountNumber": "0000000000",
+    "documentId": "0000000000000",
+    "logoUrl": "/favicon.svg",
+    "instructions": "Usar el número de pedido como referencia de pago.",
+    "enabled": true
+  }
+]

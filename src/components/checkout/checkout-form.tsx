@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { Building2, Loader2, Mail, MapPin, Phone, User } from "lucide-react";
 import { useState } from "react";
 
+import { getEnabledBankAccounts } from "@/data/payment";
+import { getEnabledShippingSectors } from "@/data/shipping";
 import { formatMoney } from "@/lib/money";
+import { BankAccountsList } from "@/components/payment/bank-accounts-list";
 import { getCartSubtotal, useCartStore } from "@/store/cart-store";
 
 type CheckoutFormState = {
@@ -13,6 +16,7 @@ type CheckoutFormState = {
   email: string;
   phone: string;
   addressLine: string;
+  shippingSectorSlug: string;
   city: string;
   province: string;
   postalCode: string;
@@ -29,6 +33,7 @@ const initialFormState: CheckoutFormState = {
   email: "",
   phone: "",
   addressLine: "",
+  shippingSectorSlug: "",
   city: "",
   province: "",
   postalCode: "",
@@ -36,6 +41,8 @@ const initialFormState: CheckoutFormState = {
 };
 
 export function CheckoutForm() {
+  const shippingSectors = getEnabledShippingSectors();
+  const bankAccounts = getEnabledBankAccounts();
   const router = useRouter();
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +51,8 @@ export function CheckoutForm() {
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
   const subtotal = getCartSubtotal(items);
-  const shippingAmount = 0;
+  const selectedShippingSector = shippingSectors.find((sector) => sector.slug === formData.shippingSectorSlug);
+  const shippingAmount = selectedShippingSector?.price ?? 0;
   const total = subtotal + shippingAmount;
 
   function updateField(field: keyof CheckoutFormState, value: string) {
@@ -176,11 +184,33 @@ export function CheckoutForm() {
               <MapPin className="size-6 text-accent" aria-hidden="true" />
               <h2 className="text-2xl font-bold tracking-[-0.03em] text-foreground">Entrega</h2>
             </div>
-            <p className="mb-5 rounded-2xl bg-warning-soft p-4 text-sm leading-6 text-foreground">
-              Los sectores y costos de envío se conectarán luego desde JSON. Por ahora guardamos estos datos como referencia del pedido.
-            </p>
 
             <div className="grid gap-4 md:grid-cols-3">
+              <label className="md:col-span-3">
+                <span className="mb-2 block text-sm font-bold text-foreground">Sector de entrega *</span>
+                <select
+                  required
+                  value={formData.shippingSectorSlug}
+                  onChange={(event) => updateField("shippingSectorSlug", event.target.value)}
+                  className="h-12 w-full rounded-2xl border border-border bg-input px-4 text-foreground outline-none transition focus:border-primary"
+                >
+                  <option value="">Selecciona un sector</option>
+                  {shippingSectors.map((sector) => (
+                    <option key={sector.slug} value={sector.slug}>
+                      {sector.name} - {formatMoney(sector.price)}
+                    </option>
+                  ))}
+                </select>
+                {selectedShippingSector ? (
+                  <span className="mt-2 block text-sm leading-6 text-muted-foreground">{selectedShippingSector.description}</span>
+                ) : null}
+                {shippingSectors.length === 0 ? (
+                  <span className="mt-2 block text-sm font-semibold text-destructive">
+                    No hay sectores habilitados. Revisa <code>src/data/shipping/sectors.json</code>.
+                  </span>
+                ) : null}
+              </label>
+
               <label className="md:col-span-3">
                 <span className="mb-2 block text-sm font-bold text-foreground">Dirección</span>
                 <input
@@ -238,9 +268,10 @@ export function CheckoutForm() {
               <Building2 className="size-6 text-accent" aria-hidden="true" />
               <h2 className="text-2xl font-bold tracking-[-0.03em] text-foreground">Pago</h2>
             </div>
-            <p className="leading-7 text-muted-foreground">
-              El pedido quedará guardado en Supabase. La integración de pago o confirmación manual por WhatsApp puede conectarse después sin cambiar el carrito.
+            <p className="mb-5 leading-7 text-muted-foreground">
+              Realiza la transferencia a una de estas cuentas. Después de confirmar el pedido, envía la captura del comprobante por WhatsApp con el número de pedido.
             </p>
+            <BankAccountsList accounts={bankAccounts} />
           </section>
         </div>
 
@@ -275,7 +306,7 @@ export function CheckoutForm() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || shippingSectors.length === 0}
             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 font-bold text-primary-foreground transition hover:bg-[#d98fa5] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? <Loader2 className="size-5 animate-spin" aria-hidden="true" /> : null}
