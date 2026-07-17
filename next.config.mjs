@@ -2,7 +2,9 @@
 const isProduction = process.env.NODE_ENV === "production";
 const imageCdnUrl = process.env.NEXT_PUBLIC_IMAGE_CDN_URL || "https://cdn.delyroses-ec.com";
 const normalizedImageCdnUrl = /^https?:\/\//i.test(imageCdnUrl) ? imageCdnUrl : `https://${imageCdnUrl}`;
-const imageCdnHostname = new URL(normalizedImageCdnUrl).hostname;
+const imageCdn = new URL(normalizedImageCdnUrl);
+const imageCdnHostname = imageCdn.hostname;
+const imageCdnOrigin = imageCdn.origin;
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -14,7 +16,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+  `connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com ${imageCdnOrigin}`,
   "frame-src 'none'",
   isProduction ? "upgrade-insecure-requests" : "",
 ]

@@ -1,4 +1,4 @@
-/* global self, caches, fetch */
+/* global self, caches, fetch, Response */
 
 const IMAGE_CACHE_NAME = "dely-roses-product-images-v1";
 const MAX_IMAGE_CACHE_ENTRIES = 80;
@@ -35,10 +35,14 @@ async function putImageInCache(cache, imageUrl) {
 
   if (cachedResponse) return;
 
-  const networkResponse = await fetch(request);
+  try {
+    const networkResponse = await fetch(request);
 
-  if (networkResponse.ok || networkResponse.type === "opaque") {
-    await cache.put(request, networkResponse.clone());
+    if (networkResponse.ok || networkResponse.type === "opaque") {
+      await cache.put(request, networkResponse.clone());
+    }
+  } catch {
+    return;
   }
 }
 
@@ -58,14 +62,21 @@ async function cacheFirstImage(request) {
 
   if (cachedResponse) return cachedResponse;
 
-  const networkResponse = await fetch(request);
+  try {
+    const networkResponse = await fetch(request);
 
-  if (networkResponse.ok || networkResponse.type === "opaque") {
-    await cache.put(request, networkResponse.clone());
-    await trimImageCache(cache);
+    if (networkResponse.ok || networkResponse.type === "opaque") {
+      await cache.put(request, networkResponse.clone());
+      await trimImageCache(cache);
+    }
+
+    return networkResponse;
+  } catch {
+    const staleResponse = await cache.match(request, { ignoreVary: true });
+
+    if (staleResponse) return staleResponse;
+    return Response.error();
   }
-
-  return networkResponse;
 }
 
 self.addEventListener("install", (event) => {
