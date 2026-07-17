@@ -67,14 +67,29 @@ function isConfirmationToken(value: string) {
   return /^[a-f0-9]{64}$/i.test(value);
 }
 
-async function getOrderWithItems(confirmationToken: string) {
+function isOrderNumber(value: string) {
+  return /^DR-[A-Z0-9]{10}$/i.test(value);
+}
+
+function normalizeOrderIdentifier(value: string) {
+  const trimmedValue = value.trim();
+
+  if (isConfirmationToken(trimmedValue)) return trimmedValue;
+  if (isOrderNumber(trimmedValue)) return trimmedValue.toUpperCase();
+
+  return null;
+}
+
+async function getOrderWithItems(orderIdentifier: string) {
   const supabase = createSupabaseAdminClient();
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .select(
       "id, order_number, customer_email, customer_name, customer_phone, subtotal_amount, shipping_amount, total_amount, delivery_address, notes, created_at",
     )
-    .eq("confirmation_token", confirmationToken)
+    .or(
+      `confirmation_token.eq.${orderIdentifier},order_number.eq.${orderIdentifier}`,
+    )
     .single();
 
   if (orderError || !order) return null;
@@ -97,10 +112,11 @@ async function getOrderWithItems(confirmationToken: string) {
 
 export default async function ConfirmationPage({ params }: ConfirmationPageProps) {
   const { orderId } = await params;
+  const orderIdentifier = normalizeOrderIdentifier(orderId);
 
-  if (!isConfirmationToken(orderId)) notFound();
+  if (!orderIdentifier) notFound();
 
-  const result = await getOrderWithItems(orderId);
+  const result = await getOrderWithItems(orderIdentifier);
 
   if (!result) notFound();
 
