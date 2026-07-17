@@ -53,18 +53,61 @@ function normalizeOrigin(value: string | null | undefined) {
   }
 }
 
+function getOriginVariants(origin: string) {
+  const variants = new Set([origin]);
+
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname.toLowerCase();
+    const port = url.port ? `:${url.port}` : "";
+
+    if (hostname.startsWith("www.")) {
+      variants.add(`${url.protocol}//${hostname.slice(4)}${port}`);
+    } else if (hostname.includes(".") && !hostname.endsWith(".localhost")) {
+      variants.add(`${url.protocol}//www.${hostname}${port}`);
+    }
+  } catch {
+    return variants;
+  }
+
+  return variants;
+}
+
+function normalizeOriginList(value: string | null | undefined) {
+  if (!value) return [];
+
+  return value
+    .split(",")
+    .map((origin) => normalizeOrigin(origin.trim()))
+    .filter((origin): origin is string => Boolean(origin));
+}
+
+function addAllowedOrigin(origins: Set<string>, value: string | null | undefined) {
+  const origin = normalizeOrigin(value);
+  if (!origin) return;
+
+  for (const variant of getOriginVariants(origin)) {
+    origins.add(variant);
+  }
+}
+
 function getAllowedOrigins() {
-  const origins = [
+  const origins = new Set<string>();
+
+  for (const origin of [
     siteConfig.url,
     process.env.NEXT_PUBLIC_SITE_URL,
     process.env.SITE_URL,
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : null,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null,
     ...LOCAL_ALLOWED_ORIGINS,
-  ]
-    .map(normalizeOrigin)
-    .filter((origin): origin is string => Boolean(origin));
+    ...normalizeOriginList(process.env.ORDER_ALLOWED_ORIGINS),
+  ]) {
+    addAllowedOrigin(origins, origin);
+  }
 
-  return new Set(origins);
+  return origins;
 }
 
 function hasTrustedOrigin(request: Request) {
