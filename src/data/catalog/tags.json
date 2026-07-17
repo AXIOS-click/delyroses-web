@@ -1,32 +1,32 @@
 [
   {
-    "slug": "amor",
-    "name": "Amor",
-    "description": "Detalles románticos para expresar cariño."
+    "slug": "base-ceramica",
+    "name": "Base de cerámica",
+    "description": "Presentación floral en base de cerámica."
   },
   {
-    "slug": "aniversario",
-    "name": "Aniversario",
-    "description": "Arreglos para celebrar historias importantes."
+    "slug": "envoltura-coreana",
+    "name": "Envoltura coreana",
+    "description": "Envoltura floral premium de estilo coreano."
   },
   {
-    "slug": "cumpleanos",
-    "name": "Cumpleaños",
-    "description": "Flores para cumpleaños y sorpresas alegres."
+    "slug": "canasta-mimbre",
+    "name": "Canasta de mimbre",
+    "description": "Presentación floral en canasta de mimbre."
   },
   {
-    "slug": "rosas-rojas",
-    "name": "Rosas rojas",
-    "description": "Rosas clásicas para regalos románticos."
+    "slug": "tarjeta-personalizada",
+    "name": "Tarjeta personalizada",
+    "description": "Incluye tarjeta de dedicatoria personalizada."
   },
   {
-    "slug": "rosas-pastel",
-    "name": "Rosas pastel",
-    "description": "Tonos suaves para regalos delicados."
+    "slug": "tulipanes-temporada",
+    "name": "Tulipanes de temporada",
+    "description": "Producto con tulipanes sujeto al calendario de abastecimiento."
   },
   {
-    "slug": "entrega-a-domicilio",
-    "name": "Entrega a domicilio",
-    "description": "Productos pensados para envío local."
+    "slug": "entrega-local",
+    "name": "Entrega local",
+    "description": "Producto preparado para envío local calculado según distancia."
   }
 ]

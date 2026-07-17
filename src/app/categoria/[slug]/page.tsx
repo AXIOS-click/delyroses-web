@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <section className="border-b border-border bg-muted">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Categoría</p>
-          <h1 className="mt-3 text-foreground">{category.name}</h1>
+          <h1 className="mt-3 text-foreground">Arreglos con {category.name} quito</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{category.description}</p>
         </div>
       </section>

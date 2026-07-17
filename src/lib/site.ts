@@ -24,8 +24,8 @@ export const siteConfig = {
 
 export const navItems = [
   { href: "/productos", label: "Productos" },
-  { href: "/categoria/rosas", label: "Rosas" },
-  { href: "/categoria/arreglos-florales", label: "Arreglos" },
+  { href: "/categoria/rosa", label: "Rosas" },
+  { href: "/categoria/orquidea", label: "Orquídeas" },
 ] as const;
 
 export const brandKeywords = [

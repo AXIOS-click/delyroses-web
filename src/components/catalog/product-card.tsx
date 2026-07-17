@@ -5,6 +5,12 @@ import type { CatalogProduct } from "@/data/catalog/types";
 import { formatMoney } from "@/lib/money";
 
 export function ProductCard({ product }: { product: CatalogProduct }) {
+  const categorySummary = product.categories
+    .slice(0, 3)
+    .map((category) => category.name)
+    .join(", ");
+  const extraCategories = product.categories.length > 3 ? ` +${product.categories.length - 3}` : "";
+
   return (
     <Link
       href={product.urlPath}
@@ -27,7 +33,10 @@ export function ProductCard({ product }: { product: CatalogProduct }) {
       </div>
 
       <div className="p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">{product.category.name}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+          {categorySummary}
+          {extraCategories}
+        </p>
         <h3 className="mt-2 text-xl font-bold tracking-[-0.02em] text-foreground">{product.name}</h3>
         <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">{product.description}</p>
         <p className="mt-4 text-2xl font-bold text-accent">{formatMoney(product.price)}</p>

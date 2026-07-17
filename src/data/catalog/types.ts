@@ -19,12 +19,16 @@ export type CatalogProductJson = {
   description: string;
   price: number;
   imageUrls: string[];
-  categorySlug: string;
+  categorySlugs: string[];
   tagSlugs: string[];
+  composition: string[];
+  presentation: string[];
+  importantNotes: string[];
 };
 
 export type CatalogProduct = CatalogProductJson & {
   category: CatalogCategory;
+  categories: CatalogCategory[];
   tags: CatalogTag[];
   urlPath: `/producto/${string}`;
   primaryImageUrl?: string;

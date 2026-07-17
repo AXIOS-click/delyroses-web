@@ -350,7 +350,11 @@ export async function POST(request: Request) {
         price: product.price,
         imageUrls: product.imageUrls,
         category: product.category,
+        categories: product.categories,
         tags: product.tags,
+        composition: product.composition,
+        presentation: product.presentation,
+        importantNotes: product.importantNotes,
       },
     }));
 

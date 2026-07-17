@@ -6,6 +6,9 @@ import type { CatalogCategory, CatalogProduct, CatalogProductJson, CatalogTag } 
 type JsonObject = Record<string, unknown>;
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const deliveryNote = "Envío. El valor del producto no incluye el servicio de entrega. El costo se calcula según la distancia.";
+const seasonalVariationNote =
+  "Variaciones estacionales. La composición puede presentar pequeños cambios según la disponibilidad de cada variedad. Toda sustitución se realizará con flores de igual o mayor valor, conservando la paleta de colores, el volumen y la estética del diseño.";
 
 function asArray(value: unknown, context: string): unknown[] {
   if (!Array.isArray(value)) throw new Error(`${context} debe ser un array.`);
@@ -79,6 +82,25 @@ function requiredStringArray(record: JsonObject, key: string, context: string) {
   return value.map((item) => item.trim());
 }
 
+function requiredNonEmptyStringArray(record: JsonObject, key: string, context: string) {
+  const value = requiredStringArray(record, key, context);
+
+  if (value.length === 0) {
+    throw new Error(`${context}.${key} debe tener al menos un valor.`);
+  }
+
+  return value;
+}
+
+function assertUniqueStrings(items: string[], context: string) {
+  const seen = new Set<string>();
+
+  for (const item of items) {
+    if (seen.has(item)) throw new Error(`${context} tiene el valor duplicado "${item}".`);
+    seen.add(item);
+  }
+}
+
 function assertUniqueSlugs(items: Array<{ slug: string }>, context: string) {
   const seen = new Set<string>();
 
@@ -119,9 +141,15 @@ function parseProduct(value: unknown, index: number): CatalogProductJson {
   const record = asObject(value, context);
   assertAllowedKeys(
     record,
-    ["id", "slug", "name", "description", "price", "imageUrls", "categorySlug", "tagSlugs"],
+    ["id", "slug", "name", "description", "price", "imageUrls", "categorySlugs", "tagSlugs", "composition", "presentation", "importantNotes"],
     context,
   );
+
+  const categorySlugs = requiredNonEmptyStringArray(record, "categorySlugs", context);
+  const tagSlugs = requiredStringArray(record, "tagSlugs", context);
+
+  assertUniqueStrings(categorySlugs, `${context}.categorySlugs`);
+  assertUniqueStrings(tagSlugs, `${context}.tagSlugs`);
 
   return {
     id: requiredString(record, "id", context),
@@ -130,8 +158,11 @@ function parseProduct(value: unknown, index: number): CatalogProductJson {
     description: requiredString(record, "description", context),
     price: requiredNumber(record, "price", context),
     imageUrls: requiredStringArray(record, "imageUrls", context),
-    categorySlug: requiredSlug(record, "categorySlug", context),
-    tagSlugs: requiredStringArray(record, "tagSlugs", context),
+    categorySlugs,
+    tagSlugs,
+    composition: requiredNonEmptyStringArray(record, "composition", context),
+    presentation: requiredNonEmptyStringArray(record, "presentation", context),
+    importantNotes: requiredStringArray(record, "importantNotes", context),
   };
 }
 
@@ -146,11 +177,15 @@ const tagsBySlug = new Map(tags.map((tag) => [tag.slug, tag]));
 
 export const products: CatalogProduct[] = asArray(productsJson, "products.json").map((value, index) => {
   const product = parseProduct(value, index);
-  const category = categoriesBySlug.get(product.categorySlug);
+  const productCategories = product.categorySlugs.map((categorySlug) => {
+    const category = categoriesBySlug.get(categorySlug);
 
-  if (!category) {
-    throw new Error(`products[${index}].categorySlug referencia una categoría inexistente: ${product.categorySlug}.`);
-  }
+    if (!category) {
+      throw new Error(`products[${index}].categorySlugs referencia una categoría inexistente: ${categorySlug}.`);
+    }
+
+    return category;
+  });
 
   const productTags = product.tagSlugs.map((tagSlug) => {
     const tag = tagsBySlug.get(tagSlug);
@@ -160,8 +195,10 @@ export const products: CatalogProduct[] = asArray(productsJson, "products.json")
 
   return {
     ...product,
-    category,
+    category: productCategories[0],
+    categories: productCategories,
     tags: productTags,
+    importantNotes: [deliveryNote, ...product.importantNotes, seasonalVariationNote],
     urlPath: `/producto/${product.slug}`,
     primaryImageUrl: product.imageUrls[0],
   };
@@ -200,19 +237,19 @@ export function getProductBySlug(slug: string) {
 }
 
 export function getProductsByCategory(categorySlug: string) {
-  return products.filter((product) => product.categorySlug === categorySlug);
+  return products.filter((product) => product.categorySlugs.includes(categorySlug));
 }
 
 export function getRelatedProducts(product: CatalogProduct, limit = 4) {
   return products
     .filter((candidate) => candidate.id !== product.id)
     .map((candidate) => {
+      const sharedCategories = candidate.categorySlugs.filter((categorySlug) => product.categorySlugs.includes(categorySlug)).length;
       const sharedTags = candidate.tagSlugs.filter((tagSlug) => product.tagSlugs.includes(tagSlug)).length;
-      const sameCategory = candidate.categorySlug === product.categorySlug ? 3 : 0;
 
       return {
         product: candidate,
-        score: sameCategory + sharedTags,
+        score: sharedCategories * 3 + sharedTags,
       };
     })
     .sort((first, second) => second.score - first.score || first.product.name.localeCompare(second.product.name))

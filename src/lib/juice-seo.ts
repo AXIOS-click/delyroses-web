@@ -155,8 +155,8 @@ export function buildProductJsonLd(product: CatalogProduct) {
     name: product.name,
     description: product.description,
     image: product.imageUrls.map(toAbsoluteUrl),
-    category: product.category.name,
-    keywords: product.tags.map((tag) => tag.name).join(", "),
+    category: product.categories.map((category) => category.name).join(", "),
+    keywords: [...product.categories.map((category) => category.name), ...product.tags.map((tag) => tag.name)].join(", "),
     offers: {
       "@type": "Offer",
       price: product.price.toFixed(2),

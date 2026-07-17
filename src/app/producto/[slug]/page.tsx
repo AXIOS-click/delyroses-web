@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     title: product.name,
     description: product.description,
     path: product.urlPath,
-    keywords: [product.category.name, ...product.tags.map((tag) => tag.name)],
+    keywords: [...product.categories.map((category) => category.name), ...product.tags.map((tag) => tag.name)],
     images: product.primaryImageUrl
       ? [{ url: product.primaryImageUrl, width: 1200, height: 1200, alt: product.name }]
       : undefined,
@@ -51,6 +51,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound();
 
   const relatedProducts = getRelatedProducts(product, 4);
+  const categoryNames = product.categories.map((category) => category.name).join(" · ");
 
   return (
     <>
@@ -97,10 +98,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <div className="lg:pt-8">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">{product.category.name}</p>
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">{categoryNames}</p>
             <h1 className="mt-3 text-foreground">{product.name}</h1>
             <p className="mt-5 text-4xl font-bold text-accent">{formatMoney(product.price)}</p>
             <p className="mt-6 text-lg leading-8 text-muted-foreground">{product.description}</p>
+
+            <div className="mt-8 grid gap-5">
+              <section className="rounded-[1.5rem] border border-border bg-card p-5">
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Composición floral</h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {product.composition.map((flower) => (
+                    <span key={flower} className="rounded-full bg-secondary px-4 py-2 text-sm font-bold text-secondary-foreground">
+                      {flower}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              <section className="rounded-[1.5rem] border border-border bg-card p-5">
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Presentación</h2>
+                <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
+                  {product.presentation.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="rounded-[1.5rem] border border-border bg-card p-5">
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Notas importantes</h2>
+                <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
+                  {product.importantNotes.map((note) => (
+                    <li key={note}>{note}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
               {product.tags.map((tag) => (

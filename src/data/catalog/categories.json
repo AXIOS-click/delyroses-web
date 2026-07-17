@@ -1,30 +1,156 @@
 [
   {
-    "slug": "rosas",
-    "name": "Rosas",
-    "description": "Rosas frescas seleccionadas para regalos románticos, detalles elegantes y fechas especiales.",
-    "seoTitle": "Rosas frescas para regalar",
-    "seoDescription": "Compra rosas frescas y delicadas en Dely Roses, listas para regalar en momentos especiales."
+    "slug": "alheli",
+    "name": "Alhelí",
+    "description": "Arreglos florales con alhelí para composiciones delicadas y elegantes en Quito.",
+    "seoTitle": "Arreglo floral con alhelí en Quito",
+    "seoDescription": "Arreglo floral con alhelí Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   },
   {
-    "slug": "arreglos-florales",
-    "name": "Arreglos florales",
-    "description": "Composiciones florales con rosas, follajes y detalles pastel para sorprender con estilo.",
-    "seoTitle": "Arreglos florales con rosas",
-    "seoDescription": "Encuentra arreglos florales elegantes con rosas y acabados delicados para regalos memorables."
+    "slug": "cala",
+    "name": "Cala",
+    "description": "Arreglos florales con cala para regalos sobrios, modernos y elegantes en Quito.",
+    "seoTitle": "Arreglo floral con cala en Quito",
+    "seoDescription": "Arreglo floral con cala Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   },
   {
-    "slug": "ramos",
-    "name": "Ramos",
-    "description": "Ramos de flores pensados para cumpleaños, aniversarios, agradecimientos y celebraciones.",
-    "seoTitle": "Ramos de rosas y flores",
-    "seoDescription": "Explora ramos de rosas y flores con una estética delicada, romántica y lista para regalar."
+    "slug": "clavel",
+    "name": "Clavel",
+    "description": "Arreglos florales con clavel para detalles florales llenos de textura y color en Quito.",
+    "seoTitle": "Arreglo floral con clavel en Quito",
+    "seoDescription": "Arreglo floral con clavel Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   },
   {
-    "slug": "ocasiones-especiales",
-    "name": "Ocasiones especiales",
-    "description": "Selecciones florales para aniversario, cumpleaños, amor, disculpas y celebraciones importantes.",
-    "seoTitle": "Flores para ocasiones especiales",
-    "seoDescription": "Regala flores para aniversarios, cumpleaños y ocasiones especiales con Dely Roses."
+    "slug": "cremon",
+    "name": "Cremón",
+    "description": "Arreglos florales con cremón para composiciones con volumen y presencia en Quito.",
+    "seoTitle": "Arreglo floral con cremón en Quito",
+    "seoDescription": "Arreglo floral con cremón Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "crisantemo",
+    "name": "Crisantemo",
+    "description": "Arreglos florales con crisantemo para diseños frescos, expresivos y versátiles en Quito.",
+    "seoTitle": "Arreglo floral con crisantemo en Quito",
+    "seoDescription": "Arreglo floral con crisantemo Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "delphinium",
+    "name": "Delphinium",
+    "description": "Arreglos florales con delphinium para composiciones verticales, finas y delicadas en Quito.",
+    "seoTitle": "Arreglo floral con delphinium en Quito",
+    "seoDescription": "Arreglo floral con delphinium Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "eucalipto",
+    "name": "Eucalipto",
+    "description": "Arreglos florales con eucalipto para diseños frescos con follaje aromático en Quito.",
+    "seoTitle": "Arreglo floral con eucalipto en Quito",
+    "seoDescription": "Arreglo floral con eucalipto Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "gerbera",
+    "name": "Gerbera",
+    "description": "Arreglos florales con gerbera para regalos alegres, luminosos y llenos de color en Quito.",
+    "seoTitle": "Arreglo floral con gerbera en Quito",
+    "seoDescription": "Arreglo floral con gerbera Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "hortensia",
+    "name": "Hortensia",
+    "description": "Arreglos florales con hortensia para composiciones voluminosas, suaves y elegantes en Quito.",
+    "seoTitle": "Arreglo floral con hortensia en Quito",
+    "seoDescription": "Arreglo floral con hortensia Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "lirio",
+    "name": "Lirio",
+    "description": "Arreglos florales con lirio para detalles sofisticados y de gran presencia en Quito.",
+    "seoTitle": "Arreglo floral con lirio en Quito",
+    "seoDescription": "Arreglo floral con lirio Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "lisianthus",
+    "name": "Lisianthus",
+    "description": "Arreglos florales con lisianthus para composiciones románticas, suaves y refinadas en Quito.",
+    "seoTitle": "Arreglo floral con lisianthus en Quito",
+    "seoDescription": "Arreglo floral con lisianthus Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "mini-cala",
+    "name": "Mini cala",
+    "description": "Arreglos florales con mini cala para diseños modernos, finos y elegantes en Quito.",
+    "seoTitle": "Arreglo floral con mini cala en Quito",
+    "seoDescription": "Arreglo floral con mini cala Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "mini-clavel",
+    "name": "Mini clavel",
+    "description": "Arreglos florales con mini clavel para composiciones delicadas con textura y movimiento en Quito.",
+    "seoTitle": "Arreglo floral con mini clavel en Quito",
+    "seoDescription": "Arreglo floral con mini clavel Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "mini-rosas",
+    "name": "Mini rosas",
+    "description": "Arreglos florales con mini rosas para regalos románticos, delicados y detallistas en Quito.",
+    "seoTitle": "Arreglo floral con mini rosas en Quito",
+    "seoDescription": "Arreglo floral con mini rosas Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "orquidea",
+    "name": "Orquídea",
+    "description": "Arreglos florales con orquídea para regalos elegantes, exclusivos y memorables en Quito.",
+    "seoTitle": "Arreglo floral con orquídea en Quito",
+    "seoDescription": "Arreglo floral con orquídea Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "ranunculo",
+    "name": "Ranúnculo",
+    "description": "Arreglos florales con ranúnculo para composiciones románticas y de textura delicada en Quito.",
+    "seoTitle": "Arreglo floral con ranúnculo en Quito",
+    "seoDescription": "Arreglo floral con ranúnculo Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "rosa",
+    "name": "Rosa",
+    "description": "Arreglos florales con rosa para regalos clásicos, románticos y elegantes en Quito.",
+    "seoTitle": "Arreglo floral con rosa en Quito",
+    "seoDescription": "Arreglo floral con rosa Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "rosa-blanca",
+    "name": "Rosa blanca",
+    "description": "Arreglos florales con rosa blanca para detalles elegantes, puros y delicados en Quito.",
+    "seoTitle": "Arreglo floral con rosa blanca en Quito",
+    "seoDescription": "Arreglo floral con rosa blanca Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "rosa-roja",
+    "name": "Rosa roja",
+    "description": "Arreglos florales con rosa roja para detalles románticos y regalos de amor en Quito.",
+    "seoTitle": "Arreglo floral con rosa roja en Quito",
+    "seoDescription": "Arreglo floral con rosa roja Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "rosas-inglesas",
+    "name": "Rosas inglesas",
+    "description": "Arreglos florales con rosas inglesas para composiciones románticas y sofisticadas en Quito.",
+    "seoTitle": "Arreglo floral con rosas inglesas en Quito",
+    "seoDescription": "Arreglo floral con rosas inglesas Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "statice",
+    "name": "Statice",
+    "description": "Arreglos florales con statice para diseños con textura, color y duración en Quito.",
+    "seoTitle": "Arreglo floral con statice en Quito",
+    "seoDescription": "Arreglo floral con statice Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
+  },
+  {
+    "slug": "tulipan",
+    "name": "Tulipán",
+    "description": "Arreglos florales con tulipán para regalos elegantes sujetos a temporada en Quito.",
+    "seoTitle": "Arreglo floral con tulipán en Quito",
+    "seoDescription": "Arreglo floral con tulipán Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   }
 ]
