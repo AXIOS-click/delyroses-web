@@ -47,6 +47,10 @@ export function BankAccountsList({ accounts, compact = false }: BankAccountsList
               <dt className="text-muted-foreground">Cédula/RUC</dt>
               <dd className="text-right font-semibold text-foreground">{account.documentId}</dd>
             </div>
+            <div className="flex justify-between gap-4">
+              <dt className="text-muted-foreground">Correo</dt>
+              <dd className="text-right font-semibold text-foreground">{account.email}</dd>
+            </div>
           </dl>
 
           {account.instructions ? <p className="mt-4 text-sm leading-6 text-muted-foreground">{account.instructions}</p> : null}

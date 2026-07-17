@@ -36,7 +36,7 @@ export default function ProductsPage() {
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Catálogo</p>
           <h1 className="mt-3 max-w-4xl text-foreground">Rosas y arreglos florales</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-            Esta página queda preparada para generar contenido indexable desde JSON: cada producto puede tener su URL, metadata, imágenes y schema Product.
+            Descubre nuestra colección de rosas, bouquets y arreglos florales elaborados con flores frescas. Diseños personalizados y flores a domicilio en Quito para cumpleaños, aniversarios, celebraciones y momentos especiales.
           </p>
         </div>
       </section>

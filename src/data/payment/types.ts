@@ -6,6 +6,7 @@ export type BankAccount = {
   accountType: string;
   accountNumber: string;
   documentId: string;
+  email: string;
   logoUrl: string;
   instructions?: string;
   enabled: boolean;

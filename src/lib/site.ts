@@ -1,5 +1,6 @@
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 const configuredWhatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
+const defaultWhatsappNumber = "593962965930";
 
 export const siteConfig = {
   name: "Dely Roses",
@@ -10,7 +11,7 @@ export const siteConfig = {
   locale: "es",
   currency: process.env.NEXT_PUBLIC_CURRENCY || "USD",
   category: "Floristería online",
-  whatsappUrl: configuredWhatsappNumber ? `https://wa.me/${configuredWhatsappNumber}` : undefined,
+  whatsappUrl: `https://wa.me/${configuredWhatsappNumber || defaultWhatsappNumber}`,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   socialLinks: [
     process.env.NEXT_PUBLIC_INSTAGRAM_URL

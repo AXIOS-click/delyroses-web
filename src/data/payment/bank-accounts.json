@@ -2,11 +2,25 @@
   {
     "slug": "banco-pichincha",
     "bankName": "Banco Pichincha",
-    "displayName": "Cuenta Banco Pichincha",
-    "accountHolder": "Dely Roses",
+    "displayName": "Banco Pichincha",
+    "accountHolder": "Elianny Garcia",
     "accountType": "Cuenta de ahorros",
-    "accountNumber": "0000000000",
-    "documentId": "0000000000000",
+    "accountNumber": "2211481581",
+    "documentId": "1762264503",
+    "email": "jdbalseca@gmail.com",
+    "logoUrl": "/favicon.svg",
+    "instructions": "Enviar el comprobante por WhatsApp con el número de pedido.",
+    "enabled": true
+  },
+  {
+    "slug": "produbanco-grupo-promerica",
+    "bankName": "Produbanco - Grupo Promerica",
+    "displayName": "Produbanco - Grupo Promerica",
+    "accountHolder": "David Balseca",
+    "accountType": "Cuenta de ahorros",
+    "accountNumber": "12798095860",
+    "documentId": "1717828725",
+    "email": "jdbalseca@gmail.com",
     "logoUrl": "/favicon.svg",
     "instructions": "Enviar el comprobante por WhatsApp con el número de pedido.",
     "enabled": true
@@ -14,13 +28,14 @@
   {
     "slug": "banco-guayaquil",
     "bankName": "Banco Guayaquil",
-    "displayName": "Cuenta Banco Guayaquil",
-    "accountHolder": "Dely Roses",
-    "accountType": "Cuenta corriente",
-    "accountNumber": "0000000000",
-    "documentId": "0000000000000",
+    "displayName": "Banco Guayaquil",
+    "accountHolder": "David Balseca",
+    "accountType": "Cuenta de ahorros",
+    "accountNumber": "48880465",
+    "documentId": "1717828725",
+    "email": "jdbalseca@gmail.com",
     "logoUrl": "/favicon.svg",
-    "instructions": "Usar el número de pedido como referencia de pago.",
+    "instructions": "Enviar el comprobante por WhatsApp con el número de pedido.",
     "enabled": true
   }
 ]
