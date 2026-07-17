@@ -6,6 +6,7 @@ import { CheckCircle2, MessageCircle } from "lucide-react";
 import { getEnabledBankAccounts } from "@/data/payment";
 import { BankAccountsList } from "@/components/payment/bank-accounts-list";
 import { buildJuiceMetadata } from "@/lib/juice-seo";
+import { toProductImageUrl } from "@/lib/images";
 import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
@@ -144,25 +145,29 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
           <section className="rounded-[1.75rem] border border-border bg-card p-6 shadow-sm">
             <h2 className="text-2xl font-bold tracking-[-0.03em] text-foreground">Lo que compraste</h2>
             <div className="mt-6 space-y-4">
-              {items.map((item) => (
-                <article key={item.id} className="grid gap-4 rounded-[1.25rem] border border-border bg-background p-4 sm:grid-cols-[96px_1fr_auto]">
-                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-surface-rose">
-                    {item.product_image_url ? (
-                      <Image src={item.product_image_url} alt={item.product_name} fill sizes="96px" className="object-cover" />
-                    ) : (
-                      <div className="grid size-full place-items-center text-xs font-bold uppercase tracking-[0.18em] text-accent">Sin imagen</div>
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{item.product_category_name}</p>
-                    <h3 className="mt-1 text-xl font-bold tracking-[-0.02em] text-foreground">{item.product_name}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {formatMoney(toNumber(item.unit_price))} x {item.quantity}
-                    </p>
-                  </div>
-                  <p className="text-xl font-bold text-accent sm:text-right">{formatMoney(toNumber(item.line_total))}</p>
-                </article>
-              ))}
+              {items.map((item) => {
+                const imageUrl = toProductImageUrl(item.product_image_url);
+
+                return (
+                  <article key={item.id} className="grid gap-4 rounded-[1.25rem] border border-border bg-background p-4 sm:grid-cols-[96px_1fr_auto]">
+                    <div className="relative aspect-square overflow-hidden rounded-2xl bg-surface-rose">
+                      {imageUrl ? (
+                        <Image src={imageUrl} alt={item.product_name} fill sizes="96px" className="object-cover" unoptimized />
+                      ) : (
+                        <div className="grid size-full place-items-center text-xs font-bold uppercase tracking-[0.18em] text-accent">Sin imagen</div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{item.product_category_name}</p>
+                      <h3 className="mt-1 text-xl font-bold tracking-[-0.02em] text-foreground">{item.product_name}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {formatMoney(toNumber(item.unit_price))} x {item.quantity}
+                      </p>
+                    </div>
+                    <p className="text-xl font-bold text-accent sm:text-right">{formatMoney(toNumber(item.line_total))}</p>
+                  </article>
+                );
+              })}
             </div>
           </section>
 

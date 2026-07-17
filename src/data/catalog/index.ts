@@ -2,6 +2,7 @@ import categoriesJson from "./categories.json";
 import productsJson from "./products.json";
 import tagsJson from "./tags.json";
 import type { CatalogCategory, CatalogProduct, CatalogProductJson, CatalogTag } from "./types";
+import { toProductImageUrls } from "@/lib/images";
 
 type JsonObject = Record<string, unknown>;
 
@@ -177,6 +178,7 @@ const tagsBySlug = new Map(tags.map((tag) => [tag.slug, tag]));
 
 export const products: CatalogProduct[] = asArray(productsJson, "products.json").map((value, index) => {
   const product = parseProduct(value, index);
+  const imageUrls = toProductImageUrls(product.imageUrls);
   const productCategories = product.categorySlugs.map((categorySlug) => {
     const category = categoriesBySlug.get(categorySlug);
 
@@ -195,12 +197,13 @@ export const products: CatalogProduct[] = asArray(productsJson, "products.json")
 
   return {
     ...product,
+    imageUrls,
     category: productCategories[0],
     categories: productCategories,
     tags: productTags,
     importantNotes: [deliveryNote, ...product.importantNotes, seasonalVariationNote],
     urlPath: `/producto/${product.slug}`,
-    primaryImageUrl: product.imageUrls[0],
+    primaryImageUrl: imageUrls[0],
   };
 });
 

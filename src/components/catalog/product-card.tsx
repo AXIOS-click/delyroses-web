@@ -24,6 +24,7 @@ export function ProductCard({ product }: { product: CatalogProduct }) {
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
             className="object-cover transition duration-500 group-hover:scale-105"
+            unoptimized
           />
         ) : (
           <div className="flex size-full items-center justify-center bg-[radial-gradient(circle_at_35%_30%,#fff_0,#fce5ec_35%,#f6d8e1_70%)] px-6 text-center text-sm font-bold uppercase tracking-[0.22em] text-accent">

@@ -78,7 +78,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div>
             <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface-rose">
               {product.primaryImageUrl ? (
-                <Image src={product.primaryImageUrl} alt={product.name} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" priority />
+                <Image src={product.primaryImageUrl} alt={product.name} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" priority unoptimized />
               ) : (
                 <div className="grid size-full place-items-center px-8 text-center text-sm font-bold uppercase tracking-[0.24em] text-accent">
                   Imagen pendiente
@@ -90,7 +90,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <div className="mt-4 grid grid-cols-4 gap-3">
                 {product.imageUrls.slice(1).map((imageUrl) => (
                   <div key={imageUrl} className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-surface-rose">
-                    <Image src={imageUrl} alt={product.name} fill sizes="120px" className="object-cover" />
+                    <Image src={imageUrl} alt={product.name} fill sizes="120px" className="object-cover" unoptimized />
                   </div>
                 ))}
               </div>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 
+import { toProductImageUrl } from "@/lib/images";
 import { formatMoney } from "@/lib/money";
 import { getCartItemsCount, getCartSubtotal, useCartStore } from "@/store/cart-store";
 
@@ -47,55 +48,59 @@ export function CartView() {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         <div className="space-y-4">
-          {items.map((item) => (
-            <article key={item.productId} className="grid gap-4 rounded-[1.5rem] border border-border bg-card p-4 shadow-sm sm:grid-cols-[112px_1fr_auto]">
-              <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-surface-rose">
-                {item.imageUrl ? (
-                  <Image src={item.imageUrl} alt={item.name} fill sizes="112px" className="object-cover" />
-                ) : (
-                  <div className="grid size-full place-items-center text-xs font-bold uppercase tracking-[0.18em] text-accent">Sin imagen</div>
-                )}
-              </div>
+          {items.map((item) => {
+            const imageUrl = toProductImageUrl(item.imageUrl);
 
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{item.categoryName}</p>
-                <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-foreground">{item.name}</h2>
-                <p className="mt-2 font-bold text-accent">{formatMoney(item.price)}</p>
+            return (
+              <article key={item.productId} className="grid gap-4 rounded-[1.5rem] border border-border bg-card p-4 shadow-sm sm:grid-cols-[112px_1fr_auto]">
+                <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-surface-rose">
+                  {imageUrl ? (
+                    <Image src={imageUrl} alt={item.name} fill sizes="112px" className="object-cover" unoptimized />
+                  ) : (
+                    <div className="grid size-full place-items-center text-xs font-bold uppercase tracking-[0.18em] text-accent">Sin imagen</div>
+                  )}
+                </div>
 
-                <div className="mt-4 flex w-fit items-center overflow-hidden rounded-full border border-border bg-background">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{item.categoryName}</p>
+                  <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-foreground">{item.name}</h2>
+                  <p className="mt-2 font-bold text-accent">{formatMoney(item.price)}</p>
+
+                  <div className="mt-4 flex w-fit items-center overflow-hidden rounded-full border border-border bg-background">
+                    <button
+                      type="button"
+                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                      className="grid size-10 place-items-center transition hover:bg-muted"
+                      aria-label={`Restar ${item.name}`}
+                    >
+                      <Minus className="size-4" aria-hidden="true" />
+                    </button>
+                    <span className="min-w-11 text-center font-bold">{item.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                      className="grid size-10 place-items-center transition hover:bg-muted"
+                      aria-label={`Sumar ${item.name}`}
+                    >
+                      <Plus className="size-4" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-start justify-between gap-4 sm:flex-col sm:items-end">
+                  <p className="text-xl font-bold text-foreground">{formatMoney(item.price * item.quantity)}</p>
                   <button
                     type="button"
-                    onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                    className="grid size-10 place-items-center transition hover:bg-muted"
-                    aria-label={`Restar ${item.name}`}
+                    onClick={() => removeItem(item.productId)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-bold text-muted-foreground transition hover:border-destructive hover:text-destructive"
                   >
-                    <Minus className="size-4" aria-hidden="true" />
-                  </button>
-                  <span className="min-w-11 text-center font-bold">{item.quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                    className="grid size-10 place-items-center transition hover:bg-muted"
-                    aria-label={`Sumar ${item.name}`}
-                  >
-                    <Plus className="size-4" aria-hidden="true" />
+                    <Trash2 className="size-4" aria-hidden="true" />
+                    Quitar
                   </button>
                 </div>
-              </div>
-
-              <div className="flex items-start justify-between gap-4 sm:flex-col sm:items-end">
-                <p className="text-xl font-bold text-foreground">{formatMoney(item.price * item.quantity)}</p>
-                <button
-                  type="button"
-                  onClick={() => removeItem(item.productId)}
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-bold text-muted-foreground transition hover:border-destructive hover:text-destructive"
-                >
-                  <Trash2 className="size-4" aria-hidden="true" />
-                  Quitar
-                </button>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
 
         <aside className="h-fit rounded-[1.75rem] border border-border bg-card p-6 shadow-sm lg:sticky lg:top-24">

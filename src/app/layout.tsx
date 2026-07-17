@@ -82,6 +82,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={quicksand.variable}>
+      <head>
+        <link rel="preconnect" href={siteConfig.imageCdnUrl} crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href={siteConfig.imageCdnUrl} />
+      </head>
       <body>
         <div className="flex min-h-screen flex-col">
           <SiteHeader />

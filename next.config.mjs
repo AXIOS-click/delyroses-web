@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const isProduction = process.env.NODE_ENV === "production";
+const imageCdnUrl = process.env.NEXT_PUBLIC_IMAGE_CDN_URL || "https://cdn.delyroses-ec.com";
+const normalizedImageCdnUrl = /^https?:\/\//i.test(imageCdnUrl) ? imageCdnUrl : `https://${imageCdnUrl}`;
+const imageCdnHostname = new URL(normalizedImageCdnUrl).hostname;
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -56,11 +59,11 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    formats: ["image/avif", "image/webp"],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: imageCdnHostname,
       },
     ],
   },

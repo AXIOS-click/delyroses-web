@@ -1,6 +1,12 @@
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 const configuredWhatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
+const configuredImageCdnUrl = process.env.NEXT_PUBLIC_IMAGE_CDN_URL?.replace(/\/$/, "");
 const defaultWhatsappNumber = "593962965930";
+const defaultImageCdnUrl = "https://cdn.delyroses-ec.com";
+
+function withHttps(url: string) {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
 
 export const siteConfig = {
   name: "Dely Roses",
@@ -8,6 +14,7 @@ export const siteConfig = {
   description:
     "Floristería en Quito especializada en arreglos florales, bouquets y flores a domicilio para cumpleaños, aniversarios, graduaciones, celebraciones y ocasiones especiales. Encuentra rosas, flores frescas, regalos y diseños personalizados con servicio de entrega en Quito. | Dely Roses",
   url: configuredSiteUrl || "https://delyroses-ec.com",
+  imageCdnUrl: withHttps(configuredImageCdnUrl || defaultImageCdnUrl),
   locale: "es",
   currency: process.env.NEXT_PUBLIC_CURRENCY || "USD",
   category: "Floristería online",
