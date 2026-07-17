@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Quicksand } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { FloatingWhatsappButton } from "@/components/layout/floating-whatsapp-button";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -100,6 +101,7 @@ export default function RootLayout({
         <ImageCacheRegistration imageCdnUrl={siteConfig.imageCdnUrl} productImageUrls={productImageUrls} />
         <JsonLd data={[buildStoreJsonLd(), buildWebsiteJsonLd()]} />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
