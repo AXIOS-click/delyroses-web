@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Flower2 } from "lucide-react";
 
+import { CategoryCarousel } from "@/components/catalog/category-carousel";
 import { EmptyProducts } from "@/components/catalog/empty-products";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -29,9 +30,9 @@ export default function HomePage() {
             <p className="inline-flex w-fit rounded-full bg-card px-4 py-2 text-sm font-bold text-accent shadow-sm">
               Rosas frescas, detalles suaves y regalos listos para enamorar
             </p>
-            <h1 className="mt-6 max-w-3xl text-foreground">Flores que se sienten personales desde el primer vistazo.</h1>
+            <h1 className="mt-6 max-w-3xl text-foreground">Flores y arreglos que conquistan</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-              Base SEO y catálogo preparados para vender rosas, ramos y arreglos florales con páginas estáticas, imágenes optimizadas y datos estructurados.
+              Floristería en Quito especializada en arreglos florales, bouquets y flores a domicilio para cumpleaños, aniversarios, graduaciones, celebraciones y ocasiones especiales. Encuentra rosas, flores frescas, regalos y diseños personalizados con servicio de entrega en Quito
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -68,22 +69,10 @@ export default function HomePage() {
         <div className="mb-8 flex items-end justify-between gap-6">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Categorías</p>
-            <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Estructura lista para crecer</h2>
+            <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Nuestras categorías especiales para tí</h2>
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/categoria/${category.slug}`}
-              className="rounded-[1.75rem] border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-primary hover:shadow-lg"
-            >
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-muted-foreground">{category.slug}</p>
-              <h3 className="mt-4 text-2xl font-bold tracking-[-0.03em] text-foreground">{category.name}</h3>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{category.description}</p>
-            </Link>
-          ))}
-        </div>
+        <CategoryCarousel categories={categories} />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

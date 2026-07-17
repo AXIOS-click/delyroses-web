@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Quicksand } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
+import { FloatingWhatsappButton } from "@/components/layout/floating-whatsapp-button";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -41,7 +43,14 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     title: "Dely Roses | Rosas y arreglos florales",
     description: siteConfig.description,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: siteConfig.name }],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -68,7 +77,9 @@ export const viewport: Viewport = {
   themeColor: "#FFF9F7",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={quicksand.variable}>
       <body>
@@ -77,7 +88,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </div>
+        <FloatingWhatsappButton whatsappUrl={siteConfig.whatsappUrl} />
         <JsonLd data={[buildStoreJsonLd(), buildWebsiteJsonLd()]} />
+        <Analytics />
       </body>
     </html>
   );

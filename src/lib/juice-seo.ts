@@ -100,6 +100,14 @@ export function buildStoreJsonLd() {
     description: siteConfig.description,
     url: siteConfig.url,
     sameAs: siteConfig.socialLinks.map((item) => item.href),
+    contactPoint: siteConfig.whatsappUrl
+      ? {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          availableLanguage: "es",
+          url: siteConfig.whatsappUrl,
+        }
+      : undefined,
   };
 }
 

@@ -5,7 +5,7 @@ export const siteConfig = {
   name: "Dely Roses",
   shortName: "Dely Roses",
   description:
-    "Ecommerce de rosas frescas y arreglos florales delicados para regalos, aniversarios y momentos especiales.",
+    "Floristería en Quito especializada en arreglos florales, bouquets y flores a domicilio para cumpleaños, aniversarios, graduaciones, celebraciones y ocasiones especiales. Encuentra rosas, flores frescas, regalos y diseños personalizados con servicio de entrega en Quito. | Dely Roses",
   url: configuredSiteUrl || "https://delyroses-ec.com",
   locale: "es",
   currency: process.env.NEXT_PUBLIC_CURRENCY || "USD",
