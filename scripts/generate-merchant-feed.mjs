@@ -26,6 +26,7 @@ const feedHeaders = [
   "availability",
   "image_link",
   "brand",
+  "gtin",
   "product_type",
   "identifier_exists",
   "adult",
@@ -109,7 +110,7 @@ function enabledShippingSummary(shippingSectors) {
   const cheapestSector = enabledSectors.sort((first, second) => Number(first.price) - Number(second.price))[0];
   const shippingPrice = cheapestSector ? Number(cheapestSector.price) : 0;
 
-  return `EC:Pichincha:Entrega local:${shippingPrice.toFixed(2)} ${currency}`;
+  return `EC-P local:${shippingPrice.toFixed(2)} ${currency}`;
 }
 
 function buildProductType(product, categoriesBySlug, tagsBySlug) {
@@ -144,6 +145,7 @@ export function buildMerchantCenterFeed({ products, categories, tags, shippingSe
       availability,
       imageLinks[0] || "",
       "Dely Roses",
+      "",
       buildProductType(product, categoriesBySlug, tagsBySlug),
       "no",
       "no",
