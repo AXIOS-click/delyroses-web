@@ -5,6 +5,8 @@ const normalizedImageCdnUrl = /^https?:\/\//i.test(imageCdnUrl) ? imageCdnUrl : 
 const imageCdn = new URL(normalizedImageCdnUrl);
 const imageCdnHostname = imageCdn.hostname;
 const imageCdnOrigin = imageCdn.origin;
+const googleCustomerReviewsOrigins = ["https://apis.google.com", "https://www.google.com", "https://www.gstatic.com", "https://ssl.gstatic.com"];
+const googleCustomerReviewsSources = googleCustomerReviewsOrigins.join(" ");
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -12,12 +14,12 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"} https://va.vercel-scripts.com`,
+  `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"} https://va.vercel-scripts.com ${googleCustomerReviewsSources}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  `connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com ${imageCdnOrigin}`,
-  "frame-src 'none'",
+  `connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com ${imageCdnOrigin} ${googleCustomerReviewsSources}`,
+  `frame-src ${googleCustomerReviewsSources}`,
   isProduction ? "upgrade-insecure-requests" : "",
 ]
   .filter(Boolean)
