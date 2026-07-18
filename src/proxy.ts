@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const merchantId = process.env.NEXT_PUBLIC_GOOGLE_CUSTOMER_REVIEWS_MERCHANT_ID || "5827107494";
 const fallbackFeedToken = `dr-merchant-feed-${merchantId}`;
+const enforceGoogleUserAgent = process.env.MERCHANT_CENTER_ENFORCE_GOOGLE_USER_AGENT === "true";
 
 function sanitizeFeedToken(value: string) {
   return value
@@ -17,7 +18,7 @@ function getFeedToken() {
 }
 
 function isGoogleMerchantRequest(request: NextRequest) {
-  if (process.env.NODE_ENV !== "production") return true;
+  if (!enforceGoogleUserAgent) return true;
 
   const userAgent = request.headers.get("user-agent") || "";
 
