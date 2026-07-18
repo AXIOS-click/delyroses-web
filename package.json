@@ -5,6 +5,8 @@
   "description": "Ecommerce de rosas y arreglos florales optimizado con Next.js y JUICE-SEO.",
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/generate-merchant-feed.mjs",
+    "merchant:feed": "node scripts/generate-merchant-feed.mjs",
     "dev": "next dev",
     "dev:local": "next dev",
     "build": "next build",

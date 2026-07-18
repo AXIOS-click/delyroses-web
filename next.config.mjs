@@ -77,6 +77,23 @@ const nextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
+      {
+        source: "/merchant-center/:path*",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noarchive",
+          },
+          {
+            key: "Content-Type",
+            value: "text/tab-separated-values; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "private, max-age=0, must-revalidate",
+          },
+        ],
+      },
     ];
   },
 };
