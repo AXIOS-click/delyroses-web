@@ -8,7 +8,16 @@ import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/data/catalog";
-import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata, buildProductJsonLd } from "@/lib/juice-seo";
+import { getEnabledShippingSectors } from "@/data/shipping";
+import {
+  buildBreadcrumbJsonLd,
+  buildItemListJsonLd,
+  buildJuiceMetadata,
+  buildProductJsonLd,
+  buildProductReviewText,
+  productEditorialRating,
+  productReturnPolicyText,
+} from "@/lib/juice-seo";
 import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
 
@@ -52,6 +61,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const relatedProducts = getRelatedProducts(product, 4);
   const categoryNames = product.categories.map((category) => category.name).join(" · ");
+  const shippingSectors = getEnabledShippingSectors();
+  const shippingSummary = shippingSectors.map((sector) => `${sector.name}: ${formatMoney(sector.price)}`).join(" · ");
+  const productReviewText = buildProductReviewText(product);
 
   return (
     <>
@@ -122,6 +134,42 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+              </section>
+
+              <section className="rounded-[1.5rem] border border-border bg-card p-5">
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Información para compra</h2>
+                <dl className="mt-4 grid gap-4 text-sm leading-6 sm:grid-cols-2">
+                  <div>
+                    <dt className="font-bold text-foreground">Marca</dt>
+                    <dd className="text-muted-foreground">{siteConfig.name}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-foreground">SKU</dt>
+                    <dd className="text-muted-foreground">{product.id}</dd>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <dt className="font-bold text-foreground">Entrega local</dt>
+                    <dd className="text-muted-foreground">
+                      {siteConfig.city}, {siteConfig.countryName}. {shippingSummary}
+                    </dd>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <dt className="font-bold text-foreground">Política de devolución</dt>
+                    <dd className="text-muted-foreground">{productReturnPolicyText}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section className="rounded-[1.5rem] border border-border bg-card p-5">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Reseña del equipo</h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{productReviewText}</p>
+                  </div>
+                  <div className="w-fit rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-accent">
+                    {productEditorialRating.value}/{productEditorialRating.bestRating}
+                  </div>
+                </div>
               </section>
 
               <section className="rounded-[1.5rem] border border-border bg-card p-5">

@@ -18,6 +18,10 @@ export const siteConfig = {
   locale: "es",
   currency: process.env.NEXT_PUBLIC_CURRENCY || "USD",
   category: "Floristería online",
+  countryCode: "EC",
+  countryName: "Ecuador",
+  region: "Pichincha",
+  city: "Quito",
   whatsappUrl: `https://wa.me/${configuredWhatsappNumber || defaultWhatsappNumber}`,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   socialLinks: [

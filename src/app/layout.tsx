@@ -90,6 +90,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href={siteConfig.imageCdnUrl} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={siteConfig.imageCdnUrl} />
+        <meta name="google-site-verification" content="760QMNts0dbwerXm9CW8y7guCOrcplktcrFTI2imaPk" />
       </head>
       <body>
         <div className="flex min-h-screen flex-col">

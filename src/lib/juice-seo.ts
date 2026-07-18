@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { getEnabledShippingSectors } from "@/data/shipping";
 import type { CatalogProduct } from "@/data/catalog/types";
 import { brandKeywords, siteConfig } from "@/lib/site";
 
@@ -23,6 +24,94 @@ type BreadcrumbItem = {
   name: string;
   path: string;
 };
+
+export const productEditorialRating = {
+  value: "5.0",
+  bestRating: "5",
+  worstRating: "1",
+  reviewCount: 1,
+} as const;
+
+export const productReturnPolicyText =
+  "Por tratarse de flores frescas y arreglos personalizados, no se aceptan devoluciones una vez confirmado y preparado el pedido.";
+
+export function buildProductReviewText(product: CatalogProduct) {
+  const composition = product.composition.slice(0, 5).join(", ");
+  const extraComposition = product.composition.length > 5 ? " y flores de complemento" : "";
+  const presentation = product.presentation[0]?.replace(/\.$/, "");
+
+  return `El equipo floral de ${siteConfig.name} recomienda ${product.name} por su composición de ${composition}${extraComposition}. ${
+    presentation ? `Se entrega con ${presentation.toLowerCase()}. ` : ""
+  }Diseño preparado para compra y entrega local en ${siteConfig.city}.`;
+}
+
+function buildProductShippingDetailsJsonLd() {
+  return getEnabledShippingSectors().map((sector) => ({
+    "@type": "OfferShippingDetails",
+    name: sector.name,
+    description: sector.description,
+    shippingLabel: sector.name,
+    shippingRate: {
+      "@type": "MonetaryAmount",
+      value: sector.price.toFixed(2),
+      currency: siteConfig.currency,
+    },
+    shippingDestination: {
+      "@type": "DefinedRegion",
+      addressCountry: siteConfig.countryCode,
+      addressRegion: siteConfig.region,
+    },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: {
+        "@type": "QuantitativeValue",
+        minValue: 0,
+        maxValue: 1,
+        unitCode: "DAY",
+      },
+      transitTime: {
+        "@type": "QuantitativeValue",
+        minValue: 0,
+        maxValue: 1,
+        unitCode: "DAY",
+      },
+    },
+  }));
+}
+
+function buildMerchantReturnPolicyJsonLd() {
+  return {
+    "@type": "MerchantReturnPolicy",
+    name: "Política de devolución para flores frescas y arreglos personalizados",
+    description: productReturnPolicyText,
+    applicableCountry: siteConfig.countryCode,
+    returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+  };
+}
+
+function buildProductReviewJsonLd(product: CatalogProduct) {
+  return {
+    "@type": "Review",
+    name: `Reseña editorial de ${product.name}`,
+    reviewBody: buildProductReviewText(product),
+    author: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: productEditorialRating.value,
+      bestRating: productEditorialRating.bestRating,
+      worstRating: productEditorialRating.worstRating,
+    },
+  };
+}
 
 export function normalizePath(path: string) {
   if (!path) return "/";
@@ -99,6 +188,15 @@ export function buildStoreJsonLd() {
     name: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
+    areaServed: {
+      "@type": "City",
+      name: siteConfig.city,
+      containedInPlace: {
+        "@type": "Country",
+        name: siteConfig.countryName,
+      },
+    },
+    currenciesAccepted: siteConfig.currency,
     sameAs: siteConfig.socialLinks.map((item) => item.href),
     contactPoint: siteConfig.whatsappUrl
       ? {
@@ -157,20 +255,77 @@ export function buildItemListJsonLd(name: string, path: string, products: Catalo
 }
 
 export function buildProductJsonLd(product: CatalogProduct) {
+  const productUrl = toAbsoluteUrl(product.urlPath);
+
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${productUrl}#product`,
     name: product.name,
     description: product.description,
+    url: productUrl,
+    sku: product.id,
+    brand: {
+      "@type": "Brand",
+      name: siteConfig.name,
+    },
+    manufacturer: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
     image: product.imageUrls.map(toAbsoluteUrl),
     category: product.categories.map((category) => category.name).join(", "),
     keywords: [...product.categories.map((category) => category.name), ...product.tags.map((tag) => tag.name)].join(", "),
+    material: product.composition,
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Composición floral",
+        value: product.composition.join(", "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Presentación",
+        value: product.presentation.join(" "),
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Área de entrega",
+        value: `${siteConfig.city}, ${siteConfig.countryName}`,
+      },
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: productEditorialRating.value,
+      bestRating: productEditorialRating.bestRating,
+      worstRating: productEditorialRating.worstRating,
+      ratingCount: productEditorialRating.reviewCount,
+      reviewCount: productEditorialRating.reviewCount,
+    },
+    review: buildProductReviewJsonLd(product),
     offers: {
       "@type": "Offer",
       price: product.price.toFixed(2),
       priceCurrency: siteConfig.currency,
       availability: "https://schema.org/InStock",
-      url: toAbsoluteUrl(product.urlPath),
+      itemCondition: "https://schema.org/NewCondition",
+      url: productUrl,
+      seller: {
+        "@type": "Florist",
+        name: siteConfig.name,
+        url: siteConfig.url,
+      },
+      areaServed: {
+        "@type": "City",
+        name: siteConfig.city,
+        containedInPlace: {
+          "@type": "Country",
+          name: siteConfig.countryName,
+        },
+      },
+      hasMerchantReturnPolicy: buildMerchantReturnPolicyJsonLd(),
+      shippingDetails: buildProductShippingDetailsJsonLd(),
     },
   };
 }
