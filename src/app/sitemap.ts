@@ -10,7 +10,7 @@ function toXmlUrl(url: string) {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  const staticRoutes = ["/", "/productos", "/politica-devoluciones"] as const;
+  const staticRoutes = ["/", "/productos", "/politica-devoluciones", "/politica-privacidad"] as const;
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: toXmlUrl(`${siteConfig.url}${route}`),

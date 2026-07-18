@@ -54,6 +54,11 @@ export function SiteFooter() {
                 Política de devoluciones
               </Link>
             </li>
+            <li>
+              <Link href="/politica-privacidad" className="hover:text-background">
+                Política de privacidad
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

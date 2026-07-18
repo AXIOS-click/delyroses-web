@@ -1,6 +1,7 @@
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 const configuredWhatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "");
 const configuredImageCdnUrl = process.env.NEXT_PUBLIC_IMAGE_CDN_URL?.replace(/\/$/, "");
+const configuredGoogleCustomerReviewsMerchantId = Number(process.env.NEXT_PUBLIC_GOOGLE_CUSTOMER_REVIEWS_MERCHANT_ID || "5827107494");
 const defaultWhatsappNumber = "593962965930";
 const defaultImageCdnUrl = "https://cdn.delyroses-ec.com";
 
@@ -22,6 +23,7 @@ export const siteConfig = {
   countryName: "Ecuador",
   region: "Pichincha",
   city: "Quito",
+  googleCustomerReviewsMerchantId: Number.isFinite(configuredGoogleCustomerReviewsMerchantId) ? configuredGoogleCustomerReviewsMerchantId : 5827107494,
   whatsappUrl: `https://wa.me/${configuredWhatsappNumber || defaultWhatsappNumber}`,
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   socialLinks: [

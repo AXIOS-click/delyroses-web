@@ -314,7 +314,7 @@ export function CheckoutForm() {
             {isSubmitting ? "Guardando pedido..." : "Confirmar pedido"}
           </button>
           <p className="mt-4 text-center text-xs leading-5 text-muted-foreground">
-            Al confirmar, se guardará el cliente, el pedido y los productos comprados en Supabase.
+            Al confirmar, aceptas la <Link href="/politica-privacidad" className="font-bold text-accent hover:underline">Política de privacidad</Link> y la <Link href="/politica-devoluciones" className="font-bold text-accent hover:underline">Política de devoluciones</Link>. Google puede mostrar una invitación opcional para valorar tu compra.
           </p>
         </aside>
       </form>
