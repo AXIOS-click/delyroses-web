@@ -187,11 +187,6 @@ export default function ReturnPolicyPage() {
                   Canal de atención: <a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer" className="font-bold text-accent hover:underline">WhatsApp oficial de Dely Roses</a>.
                 </p>
               ) : null}
-              {siteConfig.contactEmail ? (
-                <p>
-                  Correo electrónico: <a href={`mailto:${siteConfig.contactEmail}`} className="font-bold text-accent hover:underline">{siteConfig.contactEmail}</a>.
-                </p>
-              ) : null}
             </div>
           </section>
         </article>
