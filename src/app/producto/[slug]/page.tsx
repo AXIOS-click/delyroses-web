@@ -16,6 +16,7 @@ import {
   buildProductJsonLd,
   buildProductReviewText,
   productEditorialRating,
+  productReturnPolicyPath,
   productReturnPolicyText,
 } from "@/lib/juice-seo";
 import { formatMoney } from "@/lib/money";
@@ -155,7 +156,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   </div>
                   <div className="sm:col-span-2">
                     <dt className="font-bold text-foreground">Política de devolución</dt>
-                    <dd className="text-muted-foreground">{productReturnPolicyText}</dd>
+                    <dd className="text-muted-foreground">
+                      {productReturnPolicyText} <Link href={productReturnPolicyPath} className="font-bold text-accent hover:underline">Ver política completa</Link>
+                    </dd>
                   </div>
                 </dl>
               </section>

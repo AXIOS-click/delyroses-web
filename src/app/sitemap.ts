@@ -10,13 +10,13 @@ function toXmlUrl(url: string) {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  const staticRoutes = ["/", "/productos"] as const;
+  const staticRoutes = ["/", "/productos", "/politica-devoluciones"] as const;
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: toXmlUrl(`${siteConfig.url}${route}`),
     lastModified,
-    changeFrequency: route === "/" ? "weekly" : "daily",
-    priority: route === "/" ? 1 : 0.9,
+    changeFrequency: route === "/productos" ? "daily" : "weekly",
+    priority: route === "/" ? 1 : route === "/productos" ? 0.9 : 0.5,
   }));
 
   const categoryEntries: MetadataRoute.Sitemap = getCategories().map((category) => ({

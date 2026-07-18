@@ -32,8 +32,10 @@ export const productEditorialRating = {
   reviewCount: 1,
 } as const;
 
+export const productReturnPolicyPath = "/politica-devoluciones";
+
 export const productReturnPolicyText =
-  "Por tratarse de flores frescas y arreglos personalizados, no se aceptan devoluciones una vez confirmado y preparado el pedido.";
+  "No se aceptan devoluciones por tratarse de flores frescas, perecederas y arreglos personalizados. El reembolso solo procede cuando Dely Roses verifica que el pedido no llegó al destino indicado por el cliente.";
 
 export function buildProductReviewText(product: CatalogProduct) {
   const composition = product.composition.slice(0, 5).join(", ");
@@ -84,6 +86,7 @@ function buildMerchantReturnPolicyJsonLd() {
     "@type": "MerchantReturnPolicy",
     name: "Política de devolución para flores frescas y arreglos personalizados",
     description: productReturnPolicyText,
+    url: toAbsoluteUrl(productReturnPolicyPath),
     applicableCountry: siteConfig.countryCode,
     returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
   };

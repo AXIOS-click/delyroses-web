@@ -8,7 +8,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-20 bg-surface-dark text-background">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">
         <div>
           <p className="text-2xl font-bold tracking-[-0.04em]">{siteConfig.name}</p>
           <p className="mt-4 max-w-md text-sm leading-6 text-background/76">{siteConfig.description}</p>
@@ -44,6 +44,17 @@ export function SiteFooter() {
             )}
             {siteConfig.contactEmail ? <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> : null}
           </div>
+        </div>
+
+        <div>
+          <p className="font-bold">Legal</p>
+          <ul className="mt-4 space-y-2 text-sm text-background/76">
+            <li>
+              <Link href="/politica-devoluciones" className="hover:text-background">
+                Política de devoluciones
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>
