@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getCategories, getFeaturedProducts } from "@/data/catalog";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata, buildWebPageJsonLd } from "@/lib/juice-seo";
 
-const homeTitle = "Rosas y arreglos florales para regalar";
+const homeTitle = "Arreglos florasre con envio quito | DELY ROSES";
 const homeDescription =
   "Dely Roses prepara rosas frescas, ramos y arreglos florales delicados para regalos románticos, aniversarios y ocasiones especiales.";
 
