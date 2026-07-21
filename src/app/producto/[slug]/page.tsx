@@ -7,7 +7,11 @@ import { ArrowLeft, MessageCircle, Star } from "lucide-react";
 import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getFixedInternalProducts, getProductBySlug, getProducts } from "@/data/catalog";
+import {
+  getFixedInternalProducts,
+  getProductBySlug,
+  getProducts,
+} from "@/data/catalog";
 import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
@@ -26,14 +30,17 @@ export function generateStaticParams() {
   return getProducts().map((product) => ({ slug: product.slug }));
 }
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
 
   if (!product) {
     return buildJuiceMetadata({
       title: "Producto no encontrado",
-      description: "El producto solicitado no existe en el catálogo de Dely Roses.",
+      description:
+        "El producto solicitado no existe en el catálogo de Dely Roses.",
       path: `/producto/${slug}`,
       noIndex: true,
     });
@@ -43,9 +50,19 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     title: product.name,
     description: product.description,
     path: product.urlPath,
-    keywords: [...product.categories.map((category) => category.name), ...product.tags.map((tag) => tag.name)],
+    keywords: [
+      ...product.categories.map((category) => category.name),
+      ...product.tags.map((tag) => tag.name),
+    ],
     images: product.primaryImageUrl
-      ? [{ url: product.primaryImageUrl, width: 1200, height: 1200, alt: product.name }]
+      ? [
+          {
+            url: product.primaryImageUrl,
+            width: 1200,
+            height: 1200,
+            alt: product.name,
+          },
+        ]
       : undefined,
   });
 }
@@ -57,7 +74,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound();
 
   const internalProducts = getFixedInternalProducts(product);
-  const categoryNames = product.categories.map((category) => category.name).join(" · ");
+  const categoryNames = product.categories
+    .map((category) => category.name)
+    .join(" · ");
 
   return (
     <>
@@ -66,16 +85,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
           buildBreadcrumbJsonLd([
             { name: "Inicio", path: "/" },
             { name: "Productos", path: "/productos" },
-            { name: product.category.name, path: `/categoria/${product.category.slug}` },
+            {
+              name: product.category.name,
+              path: `/categoria/${product.category.slug}`,
+            },
             { name: product.name, path: product.urlPath },
           ]),
           buildProductJsonLd(product),
-          buildItemListJsonLd("Productos recomendados de Dely Roses", product.urlPath, internalProducts),
+          buildItemListJsonLd(
+            "Productos recomendados de Dely Roses",
+            product.urlPath,
+            internalProducts,
+          ),
         ]}
       />
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link href="/productos" className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:underline">
+        <Link
+          href="/productos"
+          className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:underline"
+        >
           <ArrowLeft className="size-4" aria-hidden="true" />
           Volver al catálogo
         </Link>
@@ -84,7 +113,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="lg:sticky lg:top-24 lg:z-10 lg:self-start">
             <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface-rose">
               {product.primaryImageUrl ? (
-                <Image src={product.primaryImageUrl} alt={product.name} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" priority unoptimized />
+                <Image
+                  src={product.primaryImageUrl}
+                  alt={product.name}
+                  fill
+                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  className="object-cover"
+                  priority
+                  unoptimized
+                />
               ) : (
                 <div className="grid size-full place-items-center px-8 text-center text-sm font-bold uppercase tracking-[0.24em] text-accent">
                   Imagen pendiente
@@ -95,8 +132,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.imageUrls.length > 1 ? (
               <div className="mt-4 grid grid-cols-4 gap-3">
                 {product.imageUrls.slice(1).map((imageUrl) => (
-                  <div key={imageUrl} className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-surface-rose">
-                    <Image src={imageUrl} alt={product.name} fill sizes="120px" className="object-cover" unoptimized />
+                  <div
+                    key={imageUrl}
+                    className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-surface-rose"
+                  >
+                    <Image
+                      src={imageUrl}
+                      alt={product.name}
+                      fill
+                      sizes="120px"
+                      className="object-cover"
+                      unoptimized
+                    />
                   </div>
                 ))}
               </div>
@@ -104,17 +151,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <div className="lg:pt-8">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">{categoryNames}</p>
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
+              {categoryNames}
+            </p>
             <h1 className="mt-3 text-foreground">{product.name}</h1>
-            <p className="mt-5 text-4xl font-bold text-accent">{formatMoney(product.price)}</p>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">{product.description}</p>
+            <p className="mt-5 text-4xl font-bold text-accent">
+              {formatMoney(product.price)}
+            </p>
+
+            <div className="flex gap-1 text-accent">
+              {Array.from({
+                length: Number(productEditorialRating.bestRating),
+              }).map((_, index) => (
+                <Star
+                  key={index}
+                  className="size-4 fill-current"
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              {product.description}
+            </p>
 
             <div className="mt-8 grid gap-5">
               <section className="rounded-[1.5rem] border border-border bg-card p-5">
-                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Composición floral</h2>
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">
+                  Composición floral
+                </h2>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {product.composition.map((flower) => (
-                    <span key={flower} className="rounded-full bg-secondary px-4 py-2 text-sm font-bold text-secondary-foreground">
+                    <span
+                      key={flower}
+                      className="rounded-full bg-secondary px-4 py-2 text-sm font-bold text-secondary-foreground"
+                    >
                       {flower}
                     </span>
                   ))}
@@ -122,7 +193,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </section>
 
               <section className="rounded-[1.5rem] border border-border bg-card p-5">
-                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Presentación</h2>
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">
+                  Presentación
+                </h2>
                 <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
                   {product.presentation.map((item) => (
                     <li key={item}>{item}</li>
@@ -130,8 +203,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </ul>
               </section>
 
-              <section className="rounded-[1.5rem] border border-border bg-card p-5">
-                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Información para compra</h2>
+              <section className="rounded-[1.5rem] border border-border bg-card p-5 hidden">
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">
+                  Información para compra
+                </h2>
                 <dl className="mt-4 grid gap-4 text-sm leading-6 sm:grid-cols-2">
                   <div>
                     <dt className="font-bold text-foreground">Marca</dt>
@@ -140,16 +215,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </dl>
               </section>
 
-              <section className="w-fit rounded-full border border-accent/15 bg-accent/10 px-3 py-2" aria-label={`Reseña del equipo: ${productEditorialRating.value} de ${productEditorialRating.bestRating}`}>
-                <div className="flex gap-1 text-accent">
-                  {Array.from({ length: Number(productEditorialRating.bestRating) }).map((_, index) => (
-                    <Star key={index} className="size-4 fill-current" aria-hidden="true" />
-                  ))}
-                </div>
-              </section>
-
               <section className="rounded-[1.5rem] border border-border bg-card p-5">
-                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Notas importantes</h2>
+                <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">
+                  Notas importantes
+                </h2>
                 <ul className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
                   {product.importantNotes.map((note) => (
                     <li key={note}>{note}</li>
@@ -160,7 +229,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             <div className="mt-6 flex flex-wrap gap-2">
               {product.tags.map((tag) => (
-                <span key={tag.slug} className="rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-accent">
+                <span
+                  key={tag.slug}
+                  className="rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-accent"
+                >
                   {tag.name}
                 </span>
               ))}
@@ -199,10 +271,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Enlaces internos</p>
-              <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Más arreglos de Dely Roses</h2>
+              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
+                Enlaces internos
+              </p>
+              <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">
+                Más arreglos de Dely Roses
+              </h2>
             </div>
-            <Link href="/productos" className="font-bold text-accent hover:underline">
+            <Link
+              href="/productos"
+              className="font-bold text-accent hover:underline"
+            >
               Ver catálogo completo
             </Link>
           </div>
