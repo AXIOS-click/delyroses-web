@@ -278,19 +278,6 @@ export function getProductsByCategory(categorySlug: string) {
   return products.filter((product) => product.categorySlugs.includes(categorySlug));
 }
 
-export function getRelatedProducts(product: CatalogProduct, limit = 4) {
-  return products
-    .filter((candidate) => candidate.id !== product.id)
-    .map((candidate) => {
-      const sharedCategories = candidate.categorySlugs.filter((categorySlug) => product.categorySlugs.includes(categorySlug)).length;
-      const sharedTags = candidate.tagSlugs.filter((tagSlug) => product.tagSlugs.includes(tagSlug)).length;
-
-      return {
-        product: candidate,
-        score: sharedCategories * 3 + sharedTags,
-      };
-    })
-    .sort((first, second) => second.score - first.score || first.product.name.localeCompare(second.product.name))
-    .slice(0, limit)
-    .map((item) => item.product);
+export function getFixedInternalProducts(product: CatalogProduct, limit = 8) {
+  return products.filter((candidate) => candidate.id !== product.id).slice(0, limit);
 }

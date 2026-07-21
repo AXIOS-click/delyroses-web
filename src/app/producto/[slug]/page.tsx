@@ -7,7 +7,7 @@ import { ArrowLeft, MessageCircle } from "lucide-react";
 import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getProductBySlug, getProducts, getRelatedProducts } from "@/data/catalog";
+import { getFixedInternalProducts, getProductBySlug, getProducts } from "@/data/catalog";
 import { getEnabledShippingSectors } from "@/data/shipping";
 import {
   buildBreadcrumbJsonLd,
@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  const relatedProducts = getRelatedProducts(product, 4);
+  const internalProducts = getFixedInternalProducts(product);
   const categoryNames = product.categories.map((category) => category.name).join(" · ");
   const shippingSectors = getEnabledShippingSectors();
   const shippingSummary = shippingSectors.map((sector) => `${sector.name}: ${formatMoney(sector.price)}`).join(" · ");
@@ -77,7 +77,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             { name: product.name, path: product.urlPath },
           ]),
           buildProductJsonLd(product),
-          buildItemListJsonLd(`Productos relacionados con ${product.name}`, product.urlPath, relatedProducts),
+          buildItemListJsonLd("Productos recomendados de Dely Roses", product.urlPath, internalProducts),
         ]}
       />
 
@@ -222,20 +222,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
       </section>
 
-      {relatedProducts.length > 0 ? (
+      {internalProducts.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">También te puede gustar</p>
-              <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Productos relacionados</h2>
+              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Enlaces internos</p>
+              <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Más arreglos de Dely Roses</h2>
             </div>
-            <Link href={`/categoria/${product.category.slug}`} className="font-bold text-accent hover:underline">
-              Ver más en {product.category.name}
+            <Link href="/productos" className="font-bold text-accent hover:underline">
+              Ver catálogo completo
             </Link>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {relatedProducts.map((relatedProduct) => (
-              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            {internalProducts.map((internalProduct) => (
+              <ProductCard key={internalProduct.id} product={internalProduct} />
             ))}
           </div>
         </section>
