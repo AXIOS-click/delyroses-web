@@ -88,7 +88,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_0.9fr]">
-          <div>
+          <div className="sticky top-24 z-10 self-start">
             <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface-rose">
               {product.primaryImageUrl ? (
                 <Image src={product.primaryImageUrl} alt={product.name} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" priority unoptimized />
