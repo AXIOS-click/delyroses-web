@@ -6,9 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { FloatingWhatsappButton } from "@/components/layout/floating-whatsapp-button";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { ImageCacheRegistration } from "@/components/performance/image-cache-registration";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getProducts } from "@/data/catalog";
 import { buildStoreJsonLd, buildWebsiteJsonLd } from "@/lib/juice-seo";
 import { brandKeywords, siteConfig } from "@/lib/site";
 
@@ -83,8 +81,6 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const productImageUrls = Array.from(new Set(getProducts().flatMap((product) => product.imageUrls))).slice(0, 80);
-
   return (
     <html lang="es" className={quicksand.variable}>
       <head>
@@ -99,7 +95,6 @@ export default function RootLayout({
           <SiteFooter />
         </div>
         <FloatingWhatsappButton whatsappUrl={siteConfig.whatsappUrl} />
-        <ImageCacheRegistration imageCdnUrl={siteConfig.imageCdnUrl} productImageUrls={productImageUrls} />
         <JsonLd data={[buildStoreJsonLd(), buildWebsiteJsonLd()]} />
         <Analytics />
         <SpeedInsights />
