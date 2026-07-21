@@ -209,6 +209,30 @@ export const products: CatalogProduct[] = asArray(productsJson, "products.json")
 
 assertUniqueSlugs(products, "products.json");
 
+function normalizeSearchValue(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+const productSearchTextById = new Map(
+  products.map((product) => [
+    product.id,
+    normalizeSearchValue(
+      [
+        product.name,
+        product.description,
+        product.slug,
+        ...product.categories.map((category) => category.name),
+        ...product.tags.map((tag) => tag.name),
+        ...product.composition,
+      ].join(" "),
+    ),
+  ]),
+);
+
 export const catalog = {
   categories,
   tags,
@@ -229,6 +253,17 @@ export function getTags() {
 
 export function getProducts() {
   return products;
+}
+
+export function searchProducts(query: string) {
+  const terms = normalizeSearchValue(query).split(/\s+/).filter(Boolean);
+
+  if (terms.length === 0) return products;
+
+  return products.filter((product) => {
+    const searchText = productSearchTextById.get(product.id) || "";
+    return terms.every((term) => searchText.includes(term));
+  });
 }
 
 export function getFeaturedProducts(limit = 4) {
