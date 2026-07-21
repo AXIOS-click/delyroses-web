@@ -227,14 +227,21 @@ export function buildWebsiteJsonLd() {
 }
 
 export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
+  const breadcrumbName = items.map((item) => item.name).join(" > ");
+
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    name: breadcrumbName ? `Ruta de navegación: ${breadcrumbName}` : "Ruta de navegación",
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: toAbsoluteUrl(item.path),
+      item: {
+        "@type": "WebPage",
+        "@id": toAbsoluteUrl(item.path),
+        name: item.name,
+      },
     })),
   };
 }
@@ -247,6 +254,7 @@ export function buildItemListJsonLd(name: string, path: string, products: Catalo
     url: toAbsoluteUrl(path),
     mainEntity: {
       "@type": "ItemList",
+      name: `Listado de productos: ${name}`,
       itemListElement: products.map((product, index) => ({
         "@type": "ListItem",
         position: index + 1,

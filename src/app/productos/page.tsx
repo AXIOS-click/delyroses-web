@@ -71,10 +71,6 @@ export default function ProductsPage() {
         </aside>
 
         <div>
-          <div className="mb-6 rounded-[1.25rem] border border-border bg-card px-5 py-4 text-sm text-muted-foreground">
-            Mostrando {products.length} producto{products.length === 1 ? "" : "s"} cargado{products.length === 1 ? "" : "s"} desde JSON.
-          </div>
-
           {products.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
