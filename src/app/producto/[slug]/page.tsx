@@ -2,22 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageCircle } from "lucide-react";
+import { ArrowLeft, MessageCircle, Star } from "lucide-react";
 
 import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getFixedInternalProducts, getProductBySlug, getProducts } from "@/data/catalog";
-import { getEnabledShippingSectors } from "@/data/shipping";
 import {
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
   buildJuiceMetadata,
   buildProductJsonLd,
-  buildProductReviewText,
   productEditorialRating,
-  productReturnPolicyPath,
-  productReturnPolicyText,
 } from "@/lib/juice-seo";
 import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
@@ -62,9 +58,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const internalProducts = getFixedInternalProducts(product);
   const categoryNames = product.categories.map((category) => category.name).join(" · ");
-  const shippingSectors = getEnabledShippingSectors();
-  const shippingSummary = shippingSectors.map((sector) => `${sector.name}: ${formatMoney(sector.price)}`).join(" · ");
-  const productReviewText = buildProductReviewText(product);
 
   return (
     <>
@@ -88,7 +81,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_0.9fr]">
-          <div className="sticky top-24 z-10 self-start">
+          <div className="lg:sticky lg:top-24 lg:z-10 lg:self-start">
             <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface-rose">
               {product.primaryImageUrl ? (
                 <Image src={product.primaryImageUrl} alt={product.name} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" priority unoptimized />
@@ -144,34 +137,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <dt className="font-bold text-foreground">Marca</dt>
                     <dd className="text-muted-foreground">{siteConfig.name}</dd>
                   </div>
-                  <div>
-                    <dt className="font-bold text-foreground">SKU</dt>
-                    <dd className="text-muted-foreground">{product.id}</dd>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <dt className="font-bold text-foreground">Entrega local</dt>
-                    <dd className="text-muted-foreground">
-                      {siteConfig.city}, {siteConfig.countryName}. {shippingSummary}
-                    </dd>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <dt className="font-bold text-foreground">Política de devolución</dt>
-                    <dd className="text-muted-foreground">
-                      {productReturnPolicyText} <Link href={productReturnPolicyPath} className="font-bold text-accent hover:underline">Ver política completa</Link>
-                    </dd>
-                  </div>
                 </dl>
               </section>
 
-              <section className="rounded-[1.5rem] border border-border bg-card p-5">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <h2 className="text-xl font-bold tracking-[-0.03em] text-foreground">Reseña del equipo</h2>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{productReviewText}</p>
-                  </div>
-                  <div className="w-fit rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-accent">
-                    {productEditorialRating.value}/{productEditorialRating.bestRating}
-                  </div>
+              <section className="w-fit rounded-full border border-accent/15 bg-accent/10 px-3 py-2" aria-label={`Reseña del equipo: ${productEditorialRating.value} de ${productEditorialRating.bestRating}`}>
+                <div className="flex gap-1 text-accent">
+                  {Array.from({ length: Number(productEditorialRating.bestRating) }).map((_, index) => (
+                    <Star key={index} className="size-4 fill-current" aria-hidden="true" />
+                  ))}
                 </div>
               </section>
 
