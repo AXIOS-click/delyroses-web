@@ -6,12 +6,15 @@ import { EmptyProducts } from "@/components/catalog/empty-products";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getCategories, getFeaturedProducts } from "@/data/catalog";
-import { buildItemListJsonLd, buildJuiceMetadata } from "@/lib/juice-seo";
+import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata, buildWebPageJsonLd } from "@/lib/juice-seo";
+
+const homeTitle = "Rosas y arreglos florales para regalar";
+const homeDescription =
+  "Dely Roses prepara rosas frescas, ramos y arreglos florales delicados para regalos románticos, aniversarios y ocasiones especiales.";
 
 export const metadata = buildJuiceMetadata({
-  title: "Rosas y arreglos florales para regalar",
-  description:
-    "Dely Roses prepara rosas frescas, ramos y arreglos florales delicados para regalos románticos, aniversarios y ocasiones especiales.",
+  title: homeTitle,
+  description: homeDescription,
   path: "/",
   keywords: ["comprar rosas", "arreglos florales románticos", "ramos de rosas"],
 });
@@ -22,7 +25,13 @@ export default function HomePage() {
 
   return (
     <>
-      {featuredProducts.length > 0 ? <JsonLd data={buildItemListJsonLd("Productos destacados", "/", featuredProducts)} /> : null}
+      <JsonLd
+        data={[
+          buildWebPageJsonLd({ name: homeTitle, description: homeDescription, path: "/" }),
+          buildBreadcrumbJsonLd([{ name: "Inicio", path: "/" }]),
+          ...(featuredProducts.length > 0 ? [buildItemListJsonLd("Productos destacados", "/", featuredProducts)] : []),
+        ]}
+      />
 
       <section className="overflow-hidden border-b border-border bg-[linear-gradient(135deg,#fff9f7_0%,#fff1f4_48%,#fff4ea_100%)]">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:py-24 lg:px-8">

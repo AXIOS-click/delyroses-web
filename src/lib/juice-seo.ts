@@ -25,6 +25,12 @@ type BreadcrumbItem = {
   path: string;
 };
 
+type WebPageJsonLdOptions = {
+  name: string;
+  description: string;
+  path: string;
+};
+
 export const productEditorialRating = {
   value: "5.0",
   bestRating: "5",
@@ -188,6 +194,7 @@ export function buildStoreJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Florist",
+    "@id": `${siteConfig.url}#florist`,
     name: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
@@ -216,12 +223,39 @@ export function buildWebsiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteConfig.url}#website`,
     name: siteConfig.name,
     url: siteConfig.url,
     potentialAction: {
       "@type": "SearchAction",
       target: `${siteConfig.url}/productos?buscar={search_term_string}`,
       "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function buildWebPageJsonLd({ name, description, path }: WebPageJsonLdOptions) {
+  const url = toAbsoluteUrl(path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    name,
+    description,
+    url,
+    inLanguage: siteConfig.locale,
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}#website`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    publisher: {
+      "@type": "Florist",
+      "@id": `${siteConfig.url}#florist`,
+      name: siteConfig.name,
+      url: siteConfig.url,
     },
   };
 }
