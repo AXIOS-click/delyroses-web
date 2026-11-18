@@ -83,5 +83,79 @@
       "Tarjeta de dedicatoria personalizada."
     ],
     "importantNotes": []
+  },
+  {
+    "id": "dely-roses-006",
+    "slug": "arreglo-floral-orquideas-caja-rosa-pastel",
+    "name": "Arreglo floral con orquídeas en caja rosa pastel",
+    "description": "Arreglo con orquídeas, rosas inglesas y gerberas, presentado en una caja circular rosa pastel con tarjeta de dedicatoria personalizada.",
+    "price": 50,
+    "imageUrls": ["dely-roses-009.jpg.jpeg"],
+    "categorySlugs": ["orquidea", "rosas-inglesas", "gerbera", "rosa", "clavel", "mini-rosas", "alheli", "statice", "eucalipto"],
+    "tagSlugs": ["tarjeta-personalizada", "entrega-local"],
+    "composition": ["Orquídea", "Rosa inglesa", "Gerbera", "Rosa", "Clavel", "Mini rosa", "Alhelí", "Statice (siempre viva)", "Eucalipto", "Astronomelia"],
+    "presentation": [
+      "Caja circular en tono rosa pastel.",
+      "Tarjeta de dedicatoria personalizada."
+    ],
+    "importantNotes": []
+  },
+  {
+    "id": "dely-roses-007",
+    "slug": "ramo-floral-coreano-orquideas-tulipanes",
+    "name": "Ramo floral coreano con orquídeas y tulipanes",
+    "description": "Ramo con orquídeas, tulipanes, lirios y ranunculus cloni en envoltura floral de estilo coreano con lazo pastel.",
+    "price": 50,
+    "imageUrls": ["dely-roses-008.jpg.jpeg"],
+    "categorySlugs": ["orquidea", "tulipan", "mini-rosas", "lirio", "statice", "ranunculo"],
+    "tagSlugs": ["envoltura-coreana", "tarjeta-personalizada", "tulipanes-temporada", "entrega-local"],
+    "composition": ["Orquídea", "Tulipán", "Mini rosa", "Lirio", "Statice (siempre viva)", "Bracteantha (flor de papel)", "Ranunculus cloni", "Mini pompón", "Antirrhinum (boca de dragón)"],
+    "presentation": [
+      "Envoltura floral premium de estilo coreano.",
+      "Lazo decorativo en tono pastel.",
+      "Tarjeta de dedicatoria personalizada."
+    ],
+    "importantNotes": [
+      "No temporada de tulipanes. Esta flor estará disponible nuevamente a partir de octubre, de acuerdo con los ciclos de cultivo y el calendario de abastecimiento de nuestros distribuidores en Países Bajos."
+    ]
+  },
+  {
+    "id": "dely-roses-008",
+    "slug": "ramo-floral-coreano-gerberas-cremon-tulipanes",
+    "name": "Ramo floral coreano con gerberas, cremón y tulipanes",
+    "description": "Ramo con gerberas, cremón, rosas, tulipanes y estrella de Belén, con envoltura de estilo coreano y lazo pastel.",
+    "price": 50,
+    "imageUrls": ["dely-roses-007.jpg.jpeg"],
+    "categorySlugs": ["gerbera", "cremon", "rosa", "tulipan", "lirio"],
+    "tagSlugs": ["envoltura-coreana", "tarjeta-personalizada", "tulipanes-temporada", "entrega-local"],
+    "composition": ["Gerbera", "Cremón", "Rosa", "Tulipán", "Ornitógalos (estrella de Belén)", "Lirio", "Antirrhinum (boca de dragón)", "Bracteantha (flor de papel)", "Flores de follaje"],
+    "presentation": [
+      "Envoltura floral premium de estilo coreano.",
+      "Lazo decorativo en tono pastel.",
+      "Tarjeta de dedicatoria personalizada."
+    ],
+    "importantNotes": [
+      "No temporada de tulipanes. Esta flor estará disponible nuevamente a partir de octubre, de acuerdo con los ciclos de cultivo y el calendario de abastecimiento de nuestros distribuidores en Países Bajos."
+    ]
+  },
+  {
+    "id": "dely-roses-009",
+    "slug": "ramo-floral-gerberas-ranunculos-envoltura-tela",
+    "name": "Ramo floral con gerberas y ranúnculos en envoltura de tela",
+    "description": "Ramo con gerberas, tulipanes, ranúnculos, anémonas y hortensias, presentado en tela con rayas delgadas blancas y rosa pastel.",
+    "price": 50,
+    "imageUrls": ["dely-roses-006.jpg.jpeg"],
+    "categorySlugs": ["gerbera", "tulipan", "ranunculo", "hortensia", "cremon", "lirio", "statice"],
+    "tagSlugs": ["tarjeta-personalizada", "tulipanes-temporada", "entrega-local"],
+    "composition": ["Gerbera", "Tulipán", "Ranunculus cloni", "Ranunculus mariposa", "Anémona", "Hortensia", "Cremón", "Lirio", "Statice", "Hebe (verónica)"],
+    "presentation": [
+      "Base plástica interna para flores.",
+      "Envoltura de tela con un diseño de rayas delgadas blancas y rosa pastel.",
+      "Lazo decorativo en tono pastel.",
+      "Tarjeta de dedicatoria personalizada."
+    ],
+    "importantNotes": [
+      "No temporada de tulipanes. Esta flor estará disponible nuevamente a partir de octubre, de acuerdo con los ciclos de cultivo y el calendario de abastecimiento de nuestros distribuidores en Países Bajos."
+    ]
   }
 ]
