@@ -7,6 +7,7 @@ import { toProductImageUrls } from "@/lib/images";
 type JsonObject = Record<string, unknown>;
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const minimumProductsForPrimaryCategory = 4;
 const deliveryNote = "Envío. El valor del producto no incluye el servicio de entrega. El costo se calcula según la distancia.";
 const seasonalVariationNote =
   "Variaciones estacionales. La composición puede presentar pequeños cambios según la disponibilidad de cada variedad. Toda sustitución se realizará con flores de igual o mayor valor, conservando la paleta de colores, el volumen y la estética del diseño.";
@@ -51,6 +52,18 @@ function optionalString(record: JsonObject, key: string, context: string) {
   }
 
   return value.trim();
+}
+
+function optionalLastModified(record: JsonObject, context: string) {
+  const value = optionalString(record, "lastModified", context);
+  if (!value) return undefined;
+
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+    throw new Error(`${context}.lastModified debe usar una fecha válida en formato AAAA-MM-DD.`);
+  }
+
+  return value;
 }
 
 function requiredSlug(record: JsonObject, key: string, context: string) {
@@ -114,7 +127,19 @@ function assertUniqueSlugs(items: Array<{ slug: string }>, context: string) {
 function parseCategory(value: unknown, index: number): CatalogCategory {
   const context = `categories[${index}]`;
   const record = asObject(value, context);
-  assertAllowedKeys(record, ["slug", "name", "description", "seoTitle", "seoDescription"], context);
+  assertAllowedKeys(record, ["slug", "name", "description", "seoTitle", "seoDescription", "guide", "lastModified"], context);
+
+  const guide = record.guide === undefined
+    ? undefined
+    : asArray(record.guide, `${context}.guide`).map((value, sectionIndex) => {
+        const sectionContext = `${context}.guide[${sectionIndex}]`;
+        const section = asObject(value, sectionContext);
+        assertAllowedKeys(section, ["heading", "body"], sectionContext);
+        return {
+          heading: requiredString(section, "heading", sectionContext),
+          body: requiredString(section, "body", sectionContext),
+        };
+      });
 
   return {
     slug: requiredSlug(record, "slug", context),
@@ -122,6 +147,8 @@ function parseCategory(value: unknown, index: number): CatalogCategory {
     description: requiredString(record, "description", context),
     seoTitle: optionalString(record, "seoTitle", context),
     seoDescription: optionalString(record, "seoDescription", context),
+    guide,
+    lastModified: optionalLastModified(record, context),
   };
 }
 
@@ -142,14 +169,17 @@ function parseProduct(value: unknown, index: number): CatalogProductJson {
   const record = asObject(value, context);
   assertAllowedKeys(
     record,
-    ["id", "slug", "name", "description", "price", "imageUrls", "categorySlugs", "tagSlugs", "composition", "presentation", "importantNotes"],
+    ["id", "slug", "name", "description", "price", "imageUrls", "categorySlugs", "filterCategorySlugs", "tagSlugs", "composition", "presentation", "importantNotes", "lastModified"],
     context,
   );
 
   const categorySlugs = requiredNonEmptyStringArray(record, "categorySlugs", context);
+  const filterCategorySlugs = record.filterCategorySlugs === undefined
+    ? []
+    : requiredStringArray(record, "filterCategorySlugs", context);
   const tagSlugs = requiredStringArray(record, "tagSlugs", context);
 
-  assertUniqueStrings(categorySlugs, `${context}.categorySlugs`);
+  assertUniqueStrings([...categorySlugs, ...filterCategorySlugs], `${context} categorías`);
   assertUniqueStrings(tagSlugs, `${context}.tagSlugs`);
 
   return {
@@ -160,10 +190,12 @@ function parseProduct(value: unknown, index: number): CatalogProductJson {
     price: requiredNumber(record, "price", context),
     imageUrls: requiredStringArray(record, "imageUrls", context),
     categorySlugs,
+    filterCategorySlugs,
     tagSlugs,
     composition: requiredNonEmptyStringArray(record, "composition", context),
     presentation: requiredNonEmptyStringArray(record, "presentation", context),
     importantNotes: requiredStringArray(record, "importantNotes", context),
+    lastModified: optionalLastModified(record, context),
   };
 }
 
@@ -179,11 +211,12 @@ const tagsBySlug = new Map(tags.map((tag) => [tag.slug, tag]));
 export const products: CatalogProduct[] = asArray(productsJson, "products.json").map((value, index) => {
   const product = parseProduct(value, index);
   const imageUrls = toProductImageUrls(product.imageUrls);
-  const productCategories = product.categorySlugs.map((categorySlug) => {
+  const categorySlugs = [...product.categorySlugs, ...product.filterCategorySlugs];
+  const productCategories = categorySlugs.map((categorySlug) => {
     const category = categoriesBySlug.get(categorySlug);
 
     if (!category) {
-      throw new Error(`products[${index}].categorySlugs referencia una categoría inexistente: ${categorySlug}.`);
+      throw new Error(`products[${index}] referencia una categoría inexistente: ${categorySlug}.`);
     }
 
     return category;
@@ -199,7 +232,7 @@ export const products: CatalogProduct[] = asArray(productsJson, "products.json")
     ...product,
     imageUrls,
     category: productCategories[0],
-    categories: productCategories,
+    categories: productCategories.slice(0, product.categorySlugs.length),
     tags: productTags,
     importantNotes: [deliveryNote, ...product.importantNotes, seasonalVariationNote],
     urlPath: `/producto/${product.slug}`,
@@ -226,6 +259,7 @@ const productSearchTextById = new Map(
         product.description,
         product.slug,
         ...product.categories.map((category) => category.name),
+        ...product.filterCategorySlugs.map((slug) => categoriesBySlug.get(slug)?.name),
         ...product.tags.map((tag) => tag.name),
         ...product.composition,
       ].join(" "),
@@ -241,6 +275,14 @@ export const catalog = {
 
 export function getCategories() {
   return categories;
+}
+
+export function isPrimaryCategory(category: CatalogCategory) {
+  return Boolean(category.guide?.length) && getProductsByCategory(category.slug).length >= minimumProductsForPrimaryCategory;
+}
+
+export function getPrimaryCategories() {
+  return categories.filter(isPrimaryCategory);
 }
 
 export function getCategoryBySlug(slug: string) {
@@ -275,7 +317,7 @@ export function getProductBySlug(slug: string) {
 }
 
 export function getProductsByCategory(categorySlug: string) {
-  return products.filter((product) => product.categorySlugs.includes(categorySlug));
+  return products.filter((product) => product.categorySlugs.includes(categorySlug) || product.filterCategorySlugs.includes(categorySlug));
 }
 
 export function getFixedInternalProducts(product: CatalogProduct, limit = 8) {

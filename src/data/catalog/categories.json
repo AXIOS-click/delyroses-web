@@ -1,5 +1,175 @@
 [
   {
+    "slug": "rosa",
+    "name": "Rosas",
+    "description": "Elige entre rosas rojas, rosas blancas y rosas inglesas en ramos y arreglos para regalar en Quito.",
+    "seoTitle": "Ramos y arreglos con rosas en Quito",
+    "seoDescription": "Regala rosas rojas, blancas o inglesas en Quito. Encuentra ramos y arreglos en cerámica con tarjeta personalizada y entrega a domicilio.",
+    "guide": [
+      {
+        "heading": "Qué color de rosa elegir",
+        "body": "Las rosas rojas suelen expresar amor y son una elección natural para una pareja o un aniversario. Las blancas transmiten calma y combinan bien con hortensias para un regalo sobrio de agradecimiento. Las rosas inglesas tienen capas de pétalos que aportan volumen y una textura distinta a la de una rosa clásica. Funcionan bien en arreglos de varios tonos y con flores grandes como las orquídeas."
+      },
+      {
+        "heading": "Ramo envuelto o arreglo en cerámica",
+        "body": "Si vas a entregar las flores en persona, un ramo envuelto es fácil de llevar y queda bien en una celebración o graduación. Si el regalo va directo a casa de quien lo recibe, un arreglo en cerámica ya está listo para colocarse en una mesa. Puedes ver la base, la envoltura y las flores de cada diseño en su ficha antes de hacer el pedido."
+      },
+      {
+        "heading": "Cuidados para que duren frescas",
+        "body": "Para un ramo de tallos sueltos, usa un florero limpio con agua fresca. Recorta los tallos en diagonal y retira las hojas que quedarían sumergidas. Cambia el agua a diario o cuando se vea turbia. Si tu arreglo trae espuma floral, agrega agua poco a poco para mantenerla húmeda, procurando no mojar los pétalos. Evita colocar las rosas al sol directo o cerca de una fuente de calor."
+      },
+      {
+        "heading": "Entrega de rosas a domicilio en Quito",
+        "body": "Puedes elegir entrega en los sectores Centro, Norte, Sur y Valles dentro de nuestra cobertura. El envío se suma al precio del arreglo y puedes revisar su valor al seleccionar el sector durante la compra. Ten a mano la dirección y una referencia para la entrega. Agrega el mensaje de la tarjeta si el arreglo es un regalo."
+      },
+      {
+        "heading": "¿Puedo elegir una variedad o un color específico?",
+        "body": "La disponibilidad puede cambiar por temporada. Si la variedad o el tono es importante para el regalo, consúltanos antes de pedir. Si alguna flor de la composición requiere sustitución, mantenemos la paleta, el volumen y el estilo con flores de igual o mayor valor."
+      },
+      {
+        "heading": "¿Qué presentación conviene para un aniversario?",
+        "body": "Si quieres entregar el regalo en mano, el ramo con rosas y tulipanes tiene envoltura de papel y lazo. Para enviarlo a domicilio, el arreglo de rosas rojas con orquídeas se entrega en su propia base."
+      }
+    ],
+    "lastModified": "2026-11-18"
+  },
+  {
+    "slug": "orquidea",
+    "name": "Orquídeas",
+    "description": "Descubre orquídeas de corte combinadas con rosas o tulipanes en ramos, cajas y arreglos de mesa.",
+    "seoTitle": "Arreglos florales con orquídeas en Quito",
+    "seoDescription": "Compra arreglos con orquídeas en Quito. Encuentra ramos, cajas y canastas con flores frescas, tarjeta de dedicatoria y entrega local.",
+    "guide": [
+      {
+        "heading": "Cuándo regalar orquídeas",
+        "body": "Las orquídeas suelen asociarse con admiración y elegancia. Por eso encajan en un agradecimiento, una felicitación de trabajo o una celebración en la que quieras un regalo más formal. Sus flores se distinguen por la forma abierta de los pétalos, que permite que destaquen incluso en arreglos con varias especies."
+      },
+      {
+        "heading": "Cómo cambia el arreglo según las flores que lo acompañan",
+        "body": "Una orquídea junto a rosas rojas da un resultado de mayor contraste y un tono romántico. Las rosas inglesas aportan volumen alrededor de las orquídeas y sirven de transición entre tonos suaves. Si prefieres una silueta más ligera, elige un ramo con tulipanes, cuyos tallos ayudan a marcar la altura del conjunto. La caja rosa pastel es una opción para quien busca una presentación más discreta."
+      },
+      {
+        "heading": "Flores de corte y cuidados en casa",
+        "body": "Este catálogo reúne composiciones con orquídeas de corte. Si eliges el ramo, colócalo en un florero con agua limpia y retira del agua las hojas bajas. Si eliges una pieza con base, revisa si los tallos tienen un depósito o espuma floral y mantén húmedo ese soporte. Las flores cortadas se conservan mejor lejos del sol directo y de corrientes fuertes de aire. Evita pulverizar agua sobre los pétalos."
+      },
+      {
+        "heading": "Pedidos para casa u oficina en Quito",
+        "body": "En el pedido puedes seleccionar entregas en Centro, Norte, Sur o Valles dentro de las zonas habilitadas. Si la dirección es una oficina, anota el nombre de la persona que recibirá el arreglo y una referencia para recepción o guardianía. La ficha muestra el precio de las flores. El costo de envío aparece cuando seleccionas el sector."
+      },
+      {
+        "heading": "¿Encontraré el mismo color en todas las temporadas?",
+        "body": "Los colores y las variedades disponibles cambian. Revisa las fotografías del diseño para elegir su paleta general. Si buscas una orquídea de un tono específico para combinar con la decoración, confirma la disponibilidad antes de comprar. El arreglo incluye tarjeta de dedicatoria para acompañar un regalo personal o institucional."
+      },
+      {
+        "heading": "¿Qué formato conviene para una mesa pequeña?",
+        "body": "La caja rosa pastel tiene forma circular y puede colocarse con la dedicatoria hacia el frente. Si tienes una mesa más amplia, la canasta de mimbre extiende las flores en un formato rectangular que se aprecia desde distintos ángulos."
+      }
+    ],
+    "lastModified": "2026-11-18"
+  },
+  {
+    "slug": "tulipan",
+    "name": "Tulipanes",
+    "description": "Compara tulipanes de temporada en ramos coreanos, envolturas de tela y canastas de mimbre.",
+    "seoTitle": "Ramos y arreglos con tulipanes en Quito",
+    "seoDescription": "Encuentra tulipanes de temporada en Quito en ramos y canastas con rosas, gerberas u orquídeas. Consulta las opciones de entrega a domicilio.",
+    "guide": [
+      {
+        "heading": "Qué aporta el tulipán a cada diseño",
+        "body": "Los tulipanes tienen una silueta sencilla que se reconoce por sus pétalos en forma de copa y sus tallos largos. En un ramo con rosas, equilibran flores de formas diferentes. Con gerberas, aportan altura entre flores más abiertas. En una canasta con orquídeas, sus tallos ayudan a dar movimiento y permiten apreciar la composición desde arriba."
+      },
+      {
+        "heading": "Colores y ocasiones",
+        "body": "Para un cumpleaños, una mezcla de tulipanes y gerberas funciona bien cuando buscas un regalo de aspecto alegre. Los tonos suaves se prestan para un agradecimiento o una felicitación tranquila. Para una pareja, el ramo con rosas y tulipanes combina dos flores que suelen asociarse con el cariño. Revisa la foto y la ficha para elegir entre un ramo con papel, uno envuelto en tela o una canasta."
+      },
+      {
+        "heading": "Cómo cuidar un ramo de tulipanes",
+        "body": "Los tallos cortados pueden seguir alargándose y curvarse hacia la luz. Si el ramo tiene tallos sueltos, usa un florero alto que les dé apoyo. Corta un poco la base de los tallos, agrega agua fresca y revisa el nivel cada día. Gira el florero si el ramo empieza a inclinarse hacia una ventana. Déjalo en un lugar fresco, lejos del sol directo y de fuentes de calor."
+      },
+      {
+        "heading": "Disponibilidad por temporada y entregas en Quito",
+        "body": "Los tulipanes están sujetos a disponibilidad. Si los quieres para una fecha especial, consulta por el diseño y el tono antes de cerrar el pedido. La entrega se calcula según el sector que selecciones, con cobertura en zonas de Centro, Norte, Sur y Valles. Añade un número de contacto y una referencia de la dirección para facilitar la entrega."
+      },
+      {
+        "heading": "¿Cuál es la diferencia entre el ramo y la canasta?",
+        "body": "El ramo resulta cómodo para llevar en mano y puede pasarse a un florero al llegar a casa. La canasta de mimbre blanco está pensada para colocarse sobre una superficie como una mesa de regalo o un aparador. Comprueba en la ficha qué flores acompañan a los tulipanes y cómo se presenta cada opción."
+      },
+      {
+        "heading": "¿La canasta se puede enviar como regalo?",
+        "body": "Sí. La canasta de mimbre blanco incluye una tarjeta de dedicatoria. Escribe el mensaje al hacer el pedido y elige una dirección de entrega dentro de los sectores de cobertura en Quito."
+      }
+    ],
+    "lastModified": "2026-11-18"
+  },
+  {
+    "slug": "ramos",
+    "name": "Ramos",
+    "description": "Ramos florales con rosas, orquídeas, tulipanes, gerberas y ranúnculos en papel o tela.",
+    "seoTitle": "Ramos de flores a domicilio en Quito",
+    "seoDescription": "Elige ramos con envoltura coreana o de tela para cumpleaños, graduaciones y aniversarios. Incluyen tarjeta personalizada y tienen entrega en Quito.",
+    "guide": [
+      {
+        "heading": "Ramos para entregar en persona",
+        "body": "Un ramo es fácil de llevar si vas a dar las flores al salir de una ceremonia, en una cena o durante una visita. Para una graduación, busca una mezcla de gerberas y tulipanes si te gustan las flores grandes y expresivas. Para un aniversario, puedes optar por el ramo de tulipanes con rosas. Los diseños con orquídeas dan más protagonismo a la forma de los pétalos y se ven bien en un regalo de agradecimiento."
+      },
+      {
+        "heading": "Papel de estilo coreano y envoltura de tela",
+        "body": "La envoltura de estilo coreano enmarca las flores con capas de papel y se remata con un lazo. Dentro de esa presentación hay diseños de lazo neutro y otros en tonos pastel. El ramo envuelto en tela tiene rayas blancas y rosa pastel y una base plástica interna. Revisa la presentación indicada en la ficha para elegir la textura y el acabado que más te gusten."
+      },
+      {
+        "heading": "Cómo pasar el ramo a un florero",
+        "body": "Si los tallos vienen libres, quita la envoltura antes de ponerlos en agua. Retira las hojas que queden sumergidas y recorta la base de los tallos con una herramienta limpia. Si quieres mantener la forma preparada por la floristería, conserva el amarre que sostiene el ramo. En el diseño con base interna, asegúrate de que quede estable al colocarlo sobre la mesa y revisa el nivel de agua."
+      },
+      {
+        "heading": "Cómo enviar un ramo a otra persona en Quito",
+        "body": "Si no puedes entregarlo en persona, selecciona el sector de envío en el pedido. Atendemos dentro de la cobertura de Centro, Norte, Sur y Valles. En una dirección con departamentos, incluye el número de piso o una indicación para recepción. Puedes añadir una dedicatoria para que la persona que recibe el ramo sepa de quién viene."
+      },
+      {
+        "heading": "¿La envoltura y las flores serán iguales a la foto?",
+        "body": "La ficha indica el formato del ramo, el acabado de la envoltura y los detalles del lazo. Algunas flores, especialmente las de temporada, pueden variar en disponibilidad. Si el color marca la diferencia para tu evento, consulta antes de comprar."
+      },
+      {
+        "heading": "¿Puedo enviar el ramo con un mensaje?",
+        "body": "Sí. Los ramos de esta colección incluyen tarjeta de dedicatoria. Escribe el mensaje durante el pedido y agrega el nombre que quieres que aparezca como firma para que la persona pueda identificar quién lo envió."
+      }
+    ],
+    "lastModified": "2026-11-18"
+  },
+  {
+    "slug": "arreglos-en-base",
+    "name": "Arreglos en base",
+    "description": "Arreglos en cerámica y cajas florales para regalar o colocar directamente sobre una mesa.",
+    "seoTitle": "Arreglos florales en bases y cajas en Quito",
+    "seoDescription": "Regala arreglos en cerámica o cajas florales con rosas, hortensias y orquídeas. Descubre las presentaciones disponibles con entrega en Quito.",
+    "guide": [
+      {
+        "heading": "Cuándo elegir un arreglo con base",
+        "body": "La base forma parte de la presentación y hace que las flores estén listas para colocar sobre una superficie estable. Es una buena opción para enviar a una casa, a una recepción o para decorar una mesa sin llevar un florero adicional. Piensa en dónde irá el regalo. En un escritorio pequeño puede funcionar una pieza de forma circular. Una base rectangular luce bien sobre un aparador o en una mesa larga."
+      },
+      {
+        "heading": "Cerámica blanca, acabados mate y cajas en tonos pastel",
+        "body": "El arreglo blanco con hortensias y rosas se presenta en una base rectangular de cerámica acanalada. El diseño romántico de rosas rojas y orquídeas lleva una base redonda blanca. Si quieres pétalos más voluminosos, el arreglo con rosas inglesas y orquídeas tiene una base de cerámica con acabado mate. Para un cumpleaños o un agradecimiento, también puedes elegir orquídeas y rosas inglesas en una caja circular rosa pastel."
+      },
+      {
+        "heading": "Cómo mantener las flores en la presentación original",
+        "body": "Ubica el arreglo sobre una superficie nivelada, lejos de la luz solar directa. Si el diseño contiene espuma floral, comprueba su humedad y añade agua con cuidado en la base de los tallos. En una caja, evita verter agua sobre el cartón o despegar el soporte interior. Retira las flores que se marchiten y limpia el agua que pueda caer sobre la mesa."
+      },
+      {
+        "heading": "Entrega a domicilio y dedicatoria en Quito",
+        "body": "Los arreglos se pueden enviar a direcciones dentro de la cobertura de Centro, Norte, Sur y Valles. El precio de la entrega se muestra al elegir el sector en el pedido. Si el arreglo llega a un negocio, agrega una referencia de acceso y el nombre de la persona que puede recibirlo. Los diseños incluyen tarjeta personalizada."
+      },
+      {
+        "heading": "¿Puedo escoger las flores para que combinen con una mesa?",
+        "body": "Cada ficha detalla la composición y la presentación asociadas al diseño. Usa la foto para escoger la combinación general de colores. Si tienes una paleta definida para una cena o celebración, consulta las variedades disponibles por temporada antes de pedir."
+      },
+      {
+        "heading": "¿Necesito tener un florero al recibir las flores?",
+        "body": "Estos diseños llegan montados en una base de cerámica o en una caja con soporte para las flores. Basta con elegir una superficie firme y revisar cómo se hidratan los tallos en la presentación original."
+      }
+    ],
+    "lastModified": "2026-11-18"
+  },
+  {
     "slug": "alheli",
     "name": "Alhelí",
     "description": "Arreglos florales con alhelí para composiciones delicadas y elegantes en Quito.",
@@ -98,25 +268,11 @@
     "seoDescription": "Arreglo floral con mini rosas Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   },
   {
-    "slug": "orquidea",
-    "name": "Orquídea",
-    "description": "Arreglos florales con orquídea para regalos elegantes, exclusivos y memorables en Quito.",
-    "seoTitle": "Arreglo floral con orquídea en Quito",
-    "seoDescription": "Arreglo floral con orquídea Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
-  },
-  {
     "slug": "ranunculo",
     "name": "Ranúnculo",
     "description": "Arreglos florales con ranúnculo para composiciones románticas y de textura delicada en Quito.",
     "seoTitle": "Arreglo floral con ranúnculo en Quito",
     "seoDescription": "Arreglo floral con ranúnculo Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
-  },
-  {
-    "slug": "rosa",
-    "name": "Rosa",
-    "description": "Arreglos florales con rosa para regalos clásicos, románticos y elegantes en Quito.",
-    "seoTitle": "Arreglo floral con rosa en Quito",
-    "seoDescription": "Arreglo floral con rosa Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   },
   {
     "slug": "rosa-blanca",
@@ -145,12 +301,5 @@
     "description": "Arreglos florales con statice para diseños con textura, color y duración en Quito.",
     "seoTitle": "Arreglo floral con statice en Quito",
     "seoDescription": "Arreglo floral con statice Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
-  },
-  {
-    "slug": "tulipan",
-    "name": "Tulipán",
-    "description": "Arreglos florales con tulipán para regalos elegantes sujetos a temporada en Quito.",
-    "seoTitle": "Arreglo floral con tulipán en Quito",
-    "seoDescription": "Arreglo floral con tulipán Quito. Diseños de Dely Roses con flores frescas y entrega calculada según distancia."
   }
 ]

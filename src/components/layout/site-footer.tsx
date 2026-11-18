@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { getCategories } from "@/data/catalog";
+import { getPrimaryCategories } from "@/data/catalog";
 import { siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
-  const categories = getCategories();
+  const categories = getPrimaryCategories();
 
   return (
     <footer className="mt-20 bg-surface-dark text-background">
@@ -22,7 +22,7 @@ export function SiteFooter() {
                 Todos los productos
               </Link>
             </li>
-            {categories.slice(0, 4).map((category) => (
+            {categories.map((category) => (
               <li key={category.slug}>
                 <Link href={`/categoria/${category.slug}`} className="hover:text-background">
                   {category.name}

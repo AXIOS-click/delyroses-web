@@ -19,3 +19,7 @@ export function toProductImageUrl(src?: string | null) {
 export function toProductImageUrls(imageUrls: string[]) {
   return imageUrls.map(toProductImageUrl).filter((imageUrl): imageUrl is string => Boolean(imageUrl));
 }
+
+export function isOptimizableProductImage(imageUrl: string) {
+  return imageUrl.startsWith(`${siteConfig.imageCdnUrl}/`) && !imageUrl.includes("?");
+}

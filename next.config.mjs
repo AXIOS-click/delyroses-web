@@ -3,7 +3,6 @@ const isProduction = process.env.NODE_ENV === "production";
 const imageCdnUrl = process.env.NEXT_PUBLIC_IMAGE_CDN_URL || "https://cdn.delyroses-ec.com";
 const normalizedImageCdnUrl = /^https?:\/\//i.test(imageCdnUrl) ? imageCdnUrl : `https://${imageCdnUrl}`;
 const imageCdn = new URL(normalizedImageCdnUrl);
-const imageCdnHostname = imageCdn.hostname;
 const imageCdnOrigin = imageCdn.origin;
 const googleCustomerReviewsOrigins = ["https://apis.google.com", "https://www.google.com", "https://www.gstatic.com", "https://ssl.gstatic.com"];
 const googleCustomerReviewsSources = googleCustomerReviewsOrigins.join(" ");
@@ -63,13 +62,35 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    unoptimized: true,
+    deviceSizes: [640, 750, 828, 1080, 1200],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: imageCdnHostname,
+        protocol: imageCdn.protocol.slice(0, -1),
+        hostname: imageCdn.hostname,
+        port: imageCdn.port,
+        pathname: `${imageCdn.pathname.replace(/\/$/, "")}/**`,
+        search: "",
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/producto/ramo-romantico-mixto",
+        destination: "/producto/ramo-floral-coreano-tulipanes-rosas",
+        statusCode: 301,
+      },
+      {
+        source: "/producto/ramo-rosas-rojas-clasico",
+        destination: "/producto/arreglo-floral-romantico-rosas-rojas-orquideas",
+        statusCode: 301,
+      },
+      {
+        source: "/producto/arreglo-floral-elegante",
+        destination: "/producto/arreglo-floral-elegante-rosas-inglesas-orquideas",
+        statusCode: 301,
+      },
+    ];
   },
   async headers() {
     return [

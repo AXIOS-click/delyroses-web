@@ -18,6 +18,7 @@ type JuiceMetadataOptions = {
   keywords?: string[];
   images?: JuiceImage[];
   noIndex?: boolean;
+  follow?: boolean;
 };
 
 type BreadcrumbItem = {
@@ -31,27 +32,10 @@ type WebPageJsonLdOptions = {
   path: string;
 };
 
-export const productEditorialRating = {
-  value: "5.0",
-  bestRating: "5",
-  worstRating: "1",
-  reviewCount: 1,
-} as const;
-
 export const productReturnPolicyPath = "/politica-devoluciones";
 
 export const productReturnPolicyText =
   "No se aceptan devoluciones por tratarse de flores frescas, perecederas y arreglos personalizados. El reembolso solo procede cuando Dely Roses verifica que el pedido no llegó al destino indicado por el cliente.";
-
-export function buildProductReviewText(product: CatalogProduct) {
-  const composition = product.composition.slice(0, 5).join(", ");
-  const extraComposition = product.composition.length > 5 ? " y flores de complemento" : "";
-  const presentation = product.presentation[0]?.replace(/\.$/, "");
-
-  return `El equipo floral de ${siteConfig.name} recomienda ${product.name} por su composición de ${composition}${extraComposition}. ${
-    presentation ? `Se entrega con ${presentation.toLowerCase()}. ` : ""
-  }Diseño preparado para compra y entrega local en ${siteConfig.city}.`;
-}
 
 function buildProductShippingDetailsJsonLd() {
   return getEnabledShippingSectors().map((sector) => ({
@@ -98,30 +82,6 @@ function buildMerchantReturnPolicyJsonLd() {
   };
 }
 
-function buildProductReviewJsonLd(product: CatalogProduct) {
-  return {
-    "@type": "Review",
-    name: `Reseña editorial de ${product.name}`,
-    reviewBody: buildProductReviewText(product),
-    author: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-    reviewRating: {
-      "@type": "Rating",
-      ratingValue: productEditorialRating.value,
-      bestRating: productEditorialRating.bestRating,
-      worstRating: productEditorialRating.worstRating,
-    },
-  };
-}
-
 export function normalizePath(path: string) {
   if (!path) return "/";
   return path.startsWith("/") ? path : `/${path}`;
@@ -139,6 +99,7 @@ export function buildJuiceMetadata({
   keywords = [],
   images = [{ url: "/opengraph-image", width: 1200, height: 630, alt: siteConfig.name }],
   noIndex = false,
+  follow = !noIndex,
 }: JuiceMetadataOptions): Metadata {
   const canonical = normalizePath(path);
   const absoluteUrl = toAbsoluteUrl(canonical);
@@ -174,7 +135,7 @@ export function buildJuiceMetadata({
     robots: noIndex
       ? {
           index: false,
-          follow: false,
+          follow,
         }
       : {
           index: true,
@@ -228,7 +189,7 @@ export function buildWebsiteJsonLd() {
     url: siteConfig.url,
     potentialAction: {
       "@type": "SearchAction",
-      target: `${siteConfig.url}/productos?buscar={search_term_string}`,
+      target: `${siteConfig.url}/productos?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
   };
@@ -320,7 +281,7 @@ export function buildProductJsonLd(product: CatalogProduct) {
       url: siteConfig.url,
     },
     image: product.imageUrls.map(toAbsoluteUrl),
-    category: product.categories.map((category) => category.name).join(", "),
+    category: product.category.name,
     keywords: [...product.categories.map((category) => category.name), ...product.tags.map((tag) => tag.name)].join(", "),
     material: product.composition,
     additionalProperty: [
@@ -340,15 +301,6 @@ export function buildProductJsonLd(product: CatalogProduct) {
         value: `${siteConfig.city}, ${siteConfig.countryName}`,
       },
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: productEditorialRating.value,
-      bestRating: productEditorialRating.bestRating,
-      worstRating: productEditorialRating.worstRating,
-      ratingCount: productEditorialRating.reviewCount,
-      reviewCount: productEditorialRating.reviewCount,
-    },
-    review: buildProductReviewJsonLd(product),
     offers: {
       "@type": "Offer",
       price: product.price.toFixed(2),

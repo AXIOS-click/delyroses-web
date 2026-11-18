@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageCircle, Star } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 
 import { AddToCartPanel } from "@/components/cart/add-to-cart-panel";
 import { ProductCard } from "@/components/catalog/product-card";
@@ -14,11 +14,10 @@ import {
 } from "@/data/catalog";
 import {
   buildBreadcrumbJsonLd,
-  buildItemListJsonLd,
   buildJuiceMetadata,
   buildProductJsonLd,
-  productEditorialRating,
 } from "@/lib/juice-seo";
+import { isOptimizableProductImage } from "@/lib/images";
 import { formatMoney } from "@/lib/money";
 import { siteConfig } from "@/lib/site";
 
@@ -74,9 +73,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound();
 
   const internalProducts = getFixedInternalProducts(product);
-  const categoryNames = product.categories
-    .map((category) => category.name)
-    .join(" · ");
 
   return (
     <>
@@ -92,11 +88,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             { name: product.name, path: product.urlPath },
           ]),
           buildProductJsonLd(product),
-          buildItemListJsonLd(
-            "Productos recomendados de Dely Roses",
-            product.urlPath,
-            internalProducts,
-          ),
         ]}
       />
 
@@ -117,10 +108,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   src={product.primaryImageUrl}
                   alt={product.name}
                   fill
-                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  sizes="(min-width: 1280px) 620px, (min-width: 1024px) 52vw, 100vw"
                   className="object-cover"
-                  priority
-                  unoptimized
+                  preload
+                  unoptimized={!isOptimizableProductImage(product.primaryImageUrl)}
                 />
               ) : (
                 <div className="grid size-full place-items-center px-8 text-center text-sm font-bold uppercase tracking-[0.24em] text-accent">
@@ -142,7 +133,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                       fill
                       sizes="120px"
                       className="object-cover"
-                      unoptimized
+                      unoptimized={!isOptimizableProductImage(imageUrl)}
                     />
                   </div>
                 ))}
@@ -151,25 +142,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <div className="lg:pt-8">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
-              {categoryNames}
-            </p>
+            <Link
+              href={`/categoria/${product.category.slug}`}
+              className="text-sm font-bold uppercase tracking-[0.24em] text-accent hover:underline"
+            >
+              {product.category.name}
+            </Link>
             <h1 className="mt-3 text-foreground">{product.name}</h1>
             <p className="mt-5 text-4xl font-bold text-accent">
               {formatMoney(product.price)}
             </p>
-
-            <div className="flex gap-1 text-accent">
-              {Array.from({
-                length: Number(productEditorialRating.bestRating),
-              }).map((_, index) => (
-                <Star
-                  key={index}
-                  className="size-4 fill-current"
-                  aria-hidden="true"
-                />
-              ))}
-            </div>
 
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
               {product.description}
@@ -271,9 +253,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
-                Enlaces internos
-              </p>
               <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">
                 Más arreglos de Dely Roses
               </h2>

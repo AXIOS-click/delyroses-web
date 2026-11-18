@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/app/components/ui/carousel";
 import type { CatalogCategory } from "@/data/catalog/types";
 
-export function CategoryCarousel({ categories }: { categories: CatalogCategory[] }) {
+export function CategoryCarousel({ categories }: { categories: Pick<CatalogCategory, "slug" | "name" | "description">[] }) {
   const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
@@ -28,8 +28,7 @@ export function CategoryCarousel({ categories }: { categories: CatalogCategory[]
               href={`/categoria/${category.slug}`}
               className="flex h-full min-h-56 flex-col rounded-[1.75rem] border border-border bg-card p-5 transition hover:-translate-y-1 hover:border-primary hover:shadow-lg"
             >
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-muted-foreground">{category.slug}</p>
-              <h3 className="mt-4 text-2xl font-bold tracking-[-0.03em] text-foreground">{category.name}</h3>
+              <h3 className="text-2xl font-bold tracking-[-0.03em] text-foreground">{category.name}</h3>
               <p className="mt-3 line-clamp-4 text-sm leading-6 text-muted-foreground">{category.description}</p>
             </Link>
           </CarouselItem>

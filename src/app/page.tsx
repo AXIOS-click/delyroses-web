@@ -5,10 +5,10 @@ import { CategoryCarousel } from "@/components/catalog/category-carousel";
 import { EmptyProducts } from "@/components/catalog/empty-products";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getCategories, getFeaturedProducts } from "@/data/catalog";
+import { getFeaturedProducts, getPrimaryCategories } from "@/data/catalog";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata, buildWebPageJsonLd } from "@/lib/juice-seo";
 
-const homeTitle = "Arreglos florales con envio quito | DELY ROSES";
+const homeTitle = "Arreglos florales con envío a domicilio en Quito";
 const homeDescription =
   "Dely Roses prepara rosas frescas, ramos y arreglos florales delicados para regalos románticos, aniversarios y ocasiones especiales.";
 
@@ -20,7 +20,7 @@ export const metadata = buildJuiceMetadata({
 });
 
 export default function HomePage() {
-  const categories = getCategories();
+  const categories = getPrimaryCategories().map(({ slug, name, description }) => ({ slug, name, description }));
   const featuredProducts = getFeaturedProducts(4);
 
   return (
@@ -77,8 +77,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-end justify-between gap-6">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Categorías</p>
-            <h2 className="mt-2 text-4xl font-bold tracking-[-0.05em] text-foreground">Nuestras categorías especiales para tí</h2>
+            <h2 className="text-4xl font-bold tracking-[-0.05em] text-foreground">Explora nuestras colecciones</h2>
           </div>
         </div>
         <CategoryCarousel categories={categories} />

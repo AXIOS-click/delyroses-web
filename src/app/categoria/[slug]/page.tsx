@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { EmptyProducts } from "@/components/catalog/empty-products";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getCategories, getCategoryBySlug, getProductsByCategory } from "@/data/catalog";
+import { getCategories, getCategoryBySlug, getProductsByCategory, isPrimaryCategory } from "@/data/catalog";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata } from "@/lib/juice-seo";
 
 type CategoryPageProps = {
@@ -33,6 +34,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     description: category.seoDescription || category.description,
     path: `/categoria/${category.slug}`,
     keywords: [category.name, category.slug],
+    noIndex: !isPrimaryCategory(category),
+    follow: true,
   });
 }
 
@@ -43,6 +46,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!category) notFound();
 
   const products = getProductsByCategory(category.slug);
+  const heading = category.guide?.length && category.seoTitle
+    ? category.seoTitle
+    : `Arreglos florales con ${category.name.toLocaleLowerCase("es")} en Quito`;
 
   return (
     <>
@@ -59,9 +65,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       <section className="border-b border-border bg-muted">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Categoría</p>
-          <h1 className="mt-3 text-foreground">Arreglos con {category.name} quito</h1>
+          <h1 className="text-foreground">{heading}</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{category.description}</p>
+          <Link href="/productos" className="mt-5 inline-flex text-sm font-bold text-accent hover:underline">
+            Ver catálogo completo
+          </Link>
         </div>
       </section>
 
@@ -76,6 +84,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <EmptyProducts />
         )}
       </section>
+
+      {category.guide?.length ? (
+        <section aria-label={`Guía de ${category.name.toLocaleLowerCase("es")}`} className="mx-auto grid max-w-7xl gap-8 px-4 pb-12 sm:px-6 lg:px-8">
+          {category.guide.map(({ heading, body }) => (
+            <div key={heading} className="max-w-3xl">
+              <h2 className="text-2xl font-bold tracking-[-0.03em] text-foreground">{heading}</h2>
+              <p className="mt-3 leading-7 text-muted-foreground">{body}</p>
+            </div>
+          ))}
+        </section>
+      ) : null}
     </>
   );
 }

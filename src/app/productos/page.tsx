@@ -1,9 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { EmptyProducts } from "@/components/catalog/empty-products";
 import { ProductCard } from "@/components/catalog/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getCategories, getProducts, getTags, searchProducts } from "@/data/catalog";
+import { getCategories, getProducts, getTags, isPrimaryCategory, searchProducts } from "@/data/catalog";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildJuiceMetadata } from "@/lib/juice-seo";
 
 type ProductsPageProps = {
@@ -54,13 +55,18 @@ function getPaginationItems(currentPage: number, pageCount: number) {
   return items;
 }
 
-export const metadata = buildJuiceMetadata({
-  title: "Catálogo de rosas y arreglos florales",
-  description:
-    "Explora el catálogo de Dely Roses con rosas, ramos y arreglos florales organizados por categorías y etiquetas.",
-  path: "/productos",
-  keywords: ["catálogo floral", "comprar flores", "productos florales"],
-});
+export async function generateMetadata({ searchParams }: ProductsPageProps): Promise<Metadata> {
+  const query = getSearchQuery((await searchParams)?.q);
+
+  return buildJuiceMetadata({
+    title: "Catálogo de ramos y arreglos florales en Quito",
+    description:
+      "Compara ramos, canastas y arreglos en cerámica de Dely Roses. Elige por flor o presentación y consulta la entrega a domicilio en Quito.",
+    path: "/productos",
+    noIndex: Boolean(query),
+    follow: true,
+  });
+}
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const resolvedSearchParams = await searchParams;
@@ -77,11 +83,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const resultEnd = Math.min(startIndex + paginatedProducts.length, totalProducts);
   const itemListName = query ? `Resultados para ${query}` : "Catálogo de Dely Roses";
   const categories = getCategories();
+  const primaryCategories = categories.filter(isPrimaryCategory);
+  const flowerFilters = categories.filter((category) => !isPrimaryCategory(category));
   const tags = getTags();
   const categoryCounts = new Map<string, number>();
 
   for (const product of allProducts) {
-    for (const categorySlug of product.categorySlugs) {
+    for (const categorySlug of [...product.categorySlugs, ...product.filterCategorySlugs]) {
       categoryCounts.set(categorySlug, (categoryCounts.get(categorySlug) || 0) + 1);
     }
   }
@@ -144,11 +152,31 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <Link href="/productos" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-[#d98fa5]">
                 Todas ({allProducts.length})
               </Link>
-              {categories.map((category) => (
+              {primaryCategories.map((category) => (
                 <Link
                   key={category.slug}
                   href={`/categoria/${category.slug}`}
                   className="rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground transition hover:bg-primary"
+                >
+                  {category.name} ({categoryCounts.get(category.slug) || 0})
+                </Link>
+              ))}
+            </div>
+          </details>
+
+          <details className="group rounded-[1.5rem] border border-border bg-card p-5 shadow-sm">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-foreground marker:text-accent">
+              Más filtros por flor
+              <span className="text-sm text-accent transition group-open:rotate-180" aria-hidden="true">
+                ↓
+              </span>
+            </summary>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {flowerFilters.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/categoria/${category.slug}`}
+                  className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground hover:bg-primary"
                 >
                   {category.name} ({categoryCounts.get(category.slug) || 0})
                 </Link>
